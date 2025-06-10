@@ -4,5 +4,7 @@ export async function getBooks() {
         console.error('Error fetching books:', response.statusText);
         throw new Error('Failed to fetch books');
     }
-    return response.json();
+    const data = await response.json();
+    console.log('Books fetched successfully:', data);
+    return data;
 }
