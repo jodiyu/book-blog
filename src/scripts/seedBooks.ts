@@ -37,6 +37,41 @@ const seedData = [
     review: "A whimsical fantasy adventure...",
     coverPath: "./src/assets/Tress.jpg"
   },
+  {
+    title: "Love Story",
+    author: "Erich Segal",
+    quote: "Love means never having to say you're sorry...",
+    review: "A devastating romance book...",
+    coverPath: "./src/assets/Love_Story.jpg"
+  },
+  {
+    title: "Hary Potter and the Philosopher's Stone",
+    author: "JK Rowling",
+    quote: "You're a wizard, Harry...",
+    review: "A magical wizard story..",
+    coverPath: "./src/assets/Harry_Potter.jpg"
+  },
+  {
+    title: "Green Eggs and Ham",
+    author: "Dr Suess",
+    quote: "I do not want green eggs and ham..",
+    review: "Witty children's book...",
+    coverPath: "./src/assets/Green_Eggs.jpg"
+  },
+  {
+    title: "Everything I Never Told You",
+    author: "Celeste Ng",
+    quote: "Blah blah blah...",
+    review: "Devastating family drama...",
+    coverPath: "./src/assets/Everything.jpg"
+  },
+  {
+    title: "Existentialism is a Humanism",
+    author: "Jean-Paul Sartre",
+    quote: "Existence precedes essence...",
+    review: "A defense against existentialism...",
+    coverPath: "./src/assets/Existentialism.jpg"
+  },
 ];
 
 async function seedBooks() {

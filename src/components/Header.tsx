@@ -1,20 +1,24 @@
 import Link from "next/link";
 import { Button } from '@/components/ui/button';
+import { ModeToggle } from "@/components/ui/mode-toggle";
 
 export function Header() {
     return (
-        <header className="w-full flex justify-center py-4 border-b bg-white">
-            <nav className="flex gap-6">
-                <Link href="/">
-                    <Button variant="ghost">Books</Button>
-                </Link>
-                <Link href="/recommendations">
-                    <Button variant="ghost">Recommendations</Button>
-                </Link>
-                <Link href="/contact">
-                    <Button variant="ghost">Contact</Button>
-                </Link>
-            </nav>
-        </header>
+            <header className="w-full flex justify-center items-center py-4 border-b">
+                <nav className="flex gap-6">
+                    <Link href="/">
+                        <Button variant="ghost">Books</Button>
+                    </Link>
+                    <Link href="/recommendations">
+                        <Button variant="ghost">Recommendations</Button>
+                    </Link>
+                    <Link href="/contact">
+                        <Button variant="ghost">Contact</Button>
+                    </Link>
+                </nav>
+                <div className="absolute right-6">
+                    <ModeToggle />
+                </div>
+            </header>
     )
 }
