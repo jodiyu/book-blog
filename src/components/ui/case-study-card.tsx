@@ -1,5 +1,5 @@
 import React from "react"; 
-
+import Image from 'next/image';
 import { cn } from "@/lib/utils";
 
 interface CaseStudyCardProps extends React.HTMLAttributes<HTMLDivElement> {
@@ -7,7 +7,6 @@ interface CaseStudyCardProps extends React.HTMLAttributes<HTMLDivElement> {
   category?: string;
   image?: string;
   logo?: string;
-  link?: string;
   type?: "content" | "simple-image"; // Decides between text or image
   onClick?: ()=> void; // Added onClick prop to handle modal opening
 }
@@ -34,9 +33,15 @@ const ContentCard: React.FC<CaseStudyCardProps> = ({ title, category, image, log
           </div>
         )}
       </div>
-      {logo && ( // Check if image exists
-        <img src={logo} alt={title} className="z-10 h-9 rounded-lg" />
-      )}
+      {logo && (
+      <Image
+        src={logo}
+        alt={title || "Logo"}
+        width={36}
+        height={36}
+        className="z-10 rounded-lg"
+      />
+    )}
     </div>
   );
 };
@@ -74,10 +79,10 @@ const HoverRevealSlip = ({ show }: { show: React.ReactNode }) => {
       
       <div
         className={cn(
-          "slide-tab z-1 absolute bottom-0 right-0 flex h-48 w-14 -translate-x-10 transform items-start justify-start rounded-r-lg bg-green-600 pl-2 pt-2 text-xs font-bold text-white transition-transform duration-300 ease-in-out [backface-visibility:hidden]"
+          "slide-tab z-1 absolute bottom-0 right-0 flex h-48 w-14 -translate-x-10 transform items-start justify-start rounded-r-lg bg-yellow-600 pl-2 pt-2 text-xs font-bold text-white transition-transform duration-300 ease-in-out [backface-visibility:hidden]"
         )}
       >
-        <div className="-rotate-90 whitespace-nowrap pb-16 pr-9">CLICK TO read</div>
+        <div className="-rotate-90 whitespace-nowrap pb-16 pr-9">Click to read</div>
       </div>
       
       <style jsx>{`
@@ -96,7 +101,6 @@ const HoverRevealSlip = ({ show }: { show: React.ReactNode }) => {
 export default function CaseStudyCard({
   title,
   category,
-  link,
   image,
   logo,
   type,
