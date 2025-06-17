@@ -50,7 +50,7 @@ const ContentCard: React.FC<CaseStudyCardProps> = ({ title, category, image, log
 const SimpleImageCard: React.FC<CaseStudyCardProps> = ({ image }) => {
   return (
     <div
-      className="relative flex w-full flex-col items-start justify-between rounded-lg p-4"
+      className="relative flex w-full h-full flex-col items-start justify-between rounded-lg p-4"
       style={{
         backgroundImage: `url(${image})`,
         backgroundSize: "cover",
@@ -62,14 +62,14 @@ const SimpleImageCard: React.FC<CaseStudyCardProps> = ({ image }) => {
 
 const HoverRevealSlip = ({ show }: { show: React.ReactNode }) => {
   return (
-// w-52
-    <div className={cn("hover-card relative h-60 w-52 [perspective:1000px]")}>
-    {/*  w-48 */}
-      <div className={cn("absolute inset-0 h-full w-48 rounded-lg bg-gray-50 shadow-md")}></div>
+
+    <div className={cn("hover-card relative h-56 w-44 [perspective:1000px]")}>
+    
+      <div className={cn("absolute inset-0 h-full w-40 rounded-lg bg-gray-50 shadow-md")}></div>
       
       <div
         className={cn(
-          "card-container relative z-50 h-full w-48 origin-left transition-transform duration-500 ease-out [transform-style:preserve-3d]"
+          "card-container relative z-50 h-full w-40 origin-left transition-transform duration-500 ease-out [transform-style:preserve-3d]"
         )}
       >
         <div className={cn("h-full w-full rounded-lg bg-white shadow-md absolute flex w-full h-full [backface-visibility:hidden]")}>
