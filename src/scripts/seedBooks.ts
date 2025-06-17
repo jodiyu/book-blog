@@ -72,6 +72,13 @@ const seedData = [
     review: "A defense against existentialism...",
     coverPath: "./src/assets/Existentialism.jpg"
   },
+  {
+    title: "A Very Long Book",
+    author: "Someone",
+    quote: "Blah blah blah...",
+    review: "I struggle to describe Marianne and Connell, and I realize that the author has beautifully crafted a story that doesn’t fit into the rigidity of boxes and words. I question how love is defined and shown in this story: Is their love inextricably bound to the characters’ internal pain: Marianne’s self destructive desire to let go of her bodily autonomy and Connell’s desperation for conformity and self hatred from straying away from it? What is their love without their unequal power dynamic? To me, the last words of the book hang off the page, dangling like an unfinished story, like a person taking a breath mid-sentence. Looking back, I think that if the author were to “finish the story,” it would leave me more dissatisfied. Because part of the story is its incompleteness and its crazed and non-formulaic structure; jumping through time like there exists no linearity and cohesion. It is reminiscent of memories: some stick and permeate in your consciousness, and you relive them like they are unending. Other periods of your life evade your mind without more than a whisper. It would be dissatisfying to give these characters - so flawed and so complex - a banal ending, bound to the words on the page that define their entire existence. A black and white ending to a vibrant story. The book ends like this: Marianne says, “I’ll always be here. You know that,” and then we flip the page and we realize the book has ended in utter incompleteness, leaving us dumbfounded, grasping for some sense of their relationship and their future. Do they fade from each others’ lives like old memories? Can they truly love each other if they don’t love themselves? We ask these questions as readers and we acknowledge that they will be left unanswered.",
+    coverPath: "./src/assets/Existentialism.jpg"
+  },
 ];
 
 async function seedBooks() {

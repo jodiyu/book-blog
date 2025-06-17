@@ -1,4 +1,3 @@
-
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 
@@ -15,14 +14,21 @@ type Props = {
 export default function BookModal({ book, onClose }: Props) {
   return (
     <Dialog open onOpenChange={onClose}>
-      <DialogContent className="max-w-md">
-        <DialogTitle className="text-xl font-semibold">{book.title}</DialogTitle>
-        <div>
-          <p className="text-sm text-gray-500 mb-2">by {book.author}</p>
-          {book.quote && <blockquote className="italic mb-2">“{book.quote}”</blockquote>}
-          {book.review && <p>{book.review}</p>}
+      <DialogContent className="max-w-md max-h-[80vh] flex flex-col">
+        {/* Title and Author */}
+        <div className="mb-1">
+          <DialogTitle className="text-xl font-semibold mb-1">{book.title}</DialogTitle>
+          <p className="text-sm text-gray-500">by {book.author}</p>
         </div>
-        <div className="mt-4">
+
+        {/* Scrollable Review Section */}
+        <div className="overflow-y-auto pr-2 mb-4 space-y-2 text-m flex-1">
+          {book.quote && <blockquote className="italic text-gray-700">“{book.quote}”</blockquote>}
+          {book.review && <p className="whitespace-pre-line">{book.review}</p>}
+        </div>
+
+        {/* Close Button*/}
+        <div className="mt-auto pt-2 ">
           <Button onClick={onClose}>Close</Button>
         </div>
       </DialogContent>
