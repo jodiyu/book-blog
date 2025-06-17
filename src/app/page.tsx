@@ -74,7 +74,7 @@ export default function Library() {
         <Marquee
           key={i}
           reverse={i % 2 === 0} // Alternating directions for each row
-          className={`[--duration:20s]`} // How long it takes for the entire length of the content to scroll
+          className={`[--duration:50s]`} // How long it takes for the entire length of the content to scroll
           pauseOnHover
           applyMask={false}
           pauseOnModal={!!selectedBook}

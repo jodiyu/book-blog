@@ -1,50 +1,11 @@
 import React from "react"; 
-import Image from 'next/image';
 import { cn } from "@/lib/utils";
 
 interface CaseStudyCardProps extends React.HTMLAttributes<HTMLDivElement> {
   title?: string;
-  category?: string;
   image?: string;
-  logo?: string;
-  type?: "content" | "simple-image"; // Decides between text or image
   onClick?: ()=> void; // Added onClick prop to handle modal opening
 }
-
-// ContentCard Component for rendering text + image
-const ContentCard: React.FC<CaseStudyCardProps> = ({ title, category, image, logo }) => {
-  return (
-    <div
-      className="relative flex h-full flex-col items-start justify-between rounded-lg p-4"
-      style={{
-        backgroundImage: `url(${image})`,
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-      }}
-    >
-      {image && <div className="opacity-70rounded-lg absolute inset-0 bg-black" />}
-
-      <div className="relative z-10">
-        {category && <div className="text-xs text-gray-200">{category}</div>}
-
-        {title && (
-          <div className="mr-2 text-lg font-bold leading-tight tracking-wide text-red-300">
-            {title}
-          </div>
-        )}
-      </div>
-      {logo && (
-      <Image
-        src={logo}
-        alt={title || "Logo"}
-        width={36}
-        height={36}
-        className="z-10 rounded-lg"
-      />
-    )}
-    </div>
-  );
-};
 
 // SimpleImageCard component for rendering only image
 const SimpleImageCard: React.FC<CaseStudyCardProps> = ({ image }) => {
@@ -60,26 +21,36 @@ const SimpleImageCard: React.FC<CaseStudyCardProps> = ({ image }) => {
   );
 };
 
-const HoverRevealSlip = ({ show }: { show: React.ReactNode }) => {
+const HoverRevealSlip = ({ show, image }: { show: React.ReactNode; image?: string }) => {
   return (
-
     <div className={cn("hover-card relative h-56 w-44 [perspective:1000px]")}>
     
-      <div className={cn("absolute inset-0 h-full w-40 rounded-lg bg-gray-50 shadow-md")}></div>
+      {/* Back cover with same image as front cover */}
+      <div 
+        className={cn("absolute inset-0 h-full w-40 rounded-lg shadow-md")}
+        style={{
+          backgroundImage: `url(${image})`,
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+        }}
+      >
+        {/* Overlay to differentiate back from front */}
+        <div className="absolute inset-0 bg-black/20 rounded-lg" />
+      </div>
       
       <div
         className={cn(
           "card-container relative z-50 h-full w-40 origin-left transition-transform duration-500 ease-out [transform-style:preserve-3d]"
         )}
       >
-        <div className={cn("h-full w-full rounded-lg bg-white shadow-md absolute flex w-full h-full [backface-visibility:hidden]")}>
+        <div className={cn("absolute inset-0 h-full w-full rounded-lg shadow-md flex [backface-visibility:hidden]")}>
           {show}
         </div>
       </div>
       
       <div
         className={cn(
-          "slide-tab z-1 absolute bottom-0 right-0 flex h-48 w-14 -translate-x-10 transform items-start justify-start rounded-r-lg bg-yellow-600 pl-2 pt-2 text-xs font-bold text-white transition-transform duration-300 ease-in-out [backface-visibility:hidden]"
+          "slide-tab z-1 absolute bottom-0 right-0 flex h-48 w-14 -translate-x-10 transform items-start justify-start rounded-r-lg bg-black dark:bg-white pl-2 pt-2 text-xs font-bold text-white dark:text-black transition-transform duration-300 ease-in-out [backface-visibility:hidden]"
         )}
       >
         <div className="-rotate-90 whitespace-nowrap pb-16 pr-9">Click to read</div>
@@ -100,22 +71,16 @@ const HoverRevealSlip = ({ show }: { show: React.ReactNode }) => {
 // Main CaseStudyCard Component
 export default function CaseStudyCard({
   title,
-  category,
   image,
-  logo,
-  type,
   onClick
 }: CaseStudyCardProps) {
   return (
     <div className="flex gap-8">
       <div className="cursor-pointer" onClick={onClick}>
         <HoverRevealSlip
+          image={image} // Pass the image to the back cover
           show={
-            type === "content" ? (
-              <ContentCard title={title} category={category} image={image} logo={logo} />
-            ) : (
               <SimpleImageCard image={image} title={title} />
-            )
           }
         />
       </div>
