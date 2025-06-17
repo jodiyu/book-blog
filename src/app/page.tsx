@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { getBooks } from '@/lib/api';
 import BookModal from '@/components/BookModal';
 import Marquee from '@/components/ui/marquee';
+import CaseStudyCard from '@/components/ui/case-study-card';
 
 type Book = {
     id: number;
@@ -80,12 +81,10 @@ export default function Library() {
         >
           {row.map((book) => (
             <div key={book.id} className="flex flex-col px-3 items-center">
-              <img
-                src={book.cover}
-                alt={book.title} // Fallback text if image fails to load
-                className="w-40 h-56 object-cover cursor-pointer rounded-lg shadow-md hover:scale-105 hover:shadow-lg transition-all duration-200"
+              <CaseStudyCard
+                image={book.cover}
                 onClick={() => setSelectedBook(book)}
-              />
+                />
               <div className="mt-2 text-center">
                 <h3 className="text-sm font-medium truncate">{book.title}</h3>
                 <p className="text-xs text-gray-600 truncate">{book.author}</p>
