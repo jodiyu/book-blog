@@ -29,6 +29,7 @@ export default function Library() {
     const[selectedBook, setSelectedBook] = useState<Book | null>(null);
     const[booksPerRow, setBooksPerRow] = useState(6);
     const[loading, setLoading] = useState(true);
+    const[imageLoaded, setImageLoaded] = useState(false);
 
     useEffect(() => {
         setLoading(true);
@@ -59,7 +60,7 @@ export default function Library() {
     }, []);
     const chunkedBooks = chunkBooks(books, booksPerRow); // Get the array of arrays of book chunks
 
-    if (loading) { // temp loading state
+    if (loading) { // Temp loading state
         return (
             <div className="flex items-center justify-center h-screen">
                 <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-blue-500"></div>
@@ -75,7 +76,7 @@ export default function Library() {
           key={i}
           reverse={i % 2 === 0} // Alternating directions for each row
           className={`[--duration:50s]`} // How long it takes for the entire length of the content to scroll
-          pauseOnHover
+          pauseOnHover={true}
           applyMask={false}
           pauseOnModal={!!selectedBook}
         >
@@ -86,8 +87,8 @@ export default function Library() {
                 onClick={() => setSelectedBook(book)}
                 />
               <div className="mt-2 text-center">
-                <h3 className="text-sm font-medium truncate">{book.title}</h3>
-                <p className="text-xs text-gray-600 truncate">{book.author}</p>
+                <h3 className="text-sm font-medium break-normal max-w-[200px] mx-auto">{book.title}</h3>
+                <p className="text-xs text-gray-600 dark:text-gray-300 truncate">{book.author}</p>
               </div>
             </div>
           ))}

@@ -69,8 +69,17 @@ export default function Marquee({
             "[animation-direction:reverse]": reverse,
             "animate-marquee-horizontal flex-row": !vertical,
             "animate-marquee-vertical flex-col": vertical,
-            "animate-none": pauseOnModal,
           })}
+            style={
+              pauseOnModal 
+                ? { animationPlayState: "paused" }
+                : !pauseOnHover 
+                  ? { animationPlayState: "running" } 
+                  : {} // Let CSS handle it when pauseOnHover is true
+            }
+          /* style={{
+            animationPlayState: pauseOnModal ? "paused" : pauseOnHover ? "running" : "running", // group-hover is a predefined Tailwind interaction, but for dynamic props it is better handled with inline style
+          }} */
         >
           {children}
         </div>
