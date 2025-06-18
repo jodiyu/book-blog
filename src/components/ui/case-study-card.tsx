@@ -18,7 +18,7 @@ const SimpleImageCard: React.FC<CaseStudyCardProps> = ({ image, title, setIsLoad
         <div className="absolute inset-0 animate-pulse bg-gray-300 dark:bg-gray-700" />
         <Image
           src={image}
-          alt={title || "Case study image"}
+          alt={title || "Image"}
           fill
           sizes="(max-width: 768px) 50vw, 200px"
           className="object-cover transition-opacity duration-500"
@@ -67,10 +67,6 @@ const HoverRevealSlip = ({ show, image, isLoading }: { show: React.ReactNode; im
       >
         <div className="-rotate-90 whitespace-nowrap pb-16 pr-9">Click to read</div>
       </div>
-{/*     </div>
-  );
-};
- */}
       
       <style jsx>{`
         .hover-card:hover .card-container {
