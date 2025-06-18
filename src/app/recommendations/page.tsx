@@ -6,31 +6,36 @@ const recommendationsList = [
         title: "C",               
         font: "Classics",    
         bookList: ["Frankenstein", "Pride and Prejudice"],
-        icon: <BookOpen size={18} color="white" />
+        icon: BookOpen,
+        color: "#5ba6ed" // blue
     },
     {
         title: "F",
         font: "Fiction",
         bookList:["I'll Give You The Sun", "Looking for Alaska", "Love Story", "Everything I Never Told You", "The Way of Kings"],
-        icon: <Heart size={18} color="white" />
+        icon: Heart,
+        color: "#ca932a" // mustard yellow
     },
     {
         title: "M",
         font: "Memoirs",
         bookList: ["Small Fry", "Educated", "When Breath Becomes Air", "Between Two Kingdoms","Reading with Patrick"],
-        icon: <UserRound size={18} color="white" />
+        icon: UserRound,
+        color: "#5fac4e" // medium green
     },
     {
         title: "N",
         font: "Nonfiction",
         bookList: ["Bad Blood: Secrets and Lies in a Silicon Valley Startup"],
-        icon: <Syringe size={18} color="white" />
+        icon: Syringe,
+        color: "#b33139" // deep red
     },
     {
         title: "S",
         font: "Science Fiction",
         bookList: ["Dune"],
-        icon: <Shell size={18} color="white" />
+        icon: Shell,
+        color: "#5a215a" // plum
     }
 
 ];

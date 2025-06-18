@@ -4,25 +4,26 @@ import { cn } from "@/lib/utils";
 interface CardProps {
   show: React.ReactNode;
   reveal: React.ReactNode;
+  color: string;
 }
 
 interface CardDetailsProps extends React.HTMLAttributes<HTMLDivElement> {
   title: string;
   font: string;
   bookList: string[];
-  icon: React.ReactNode;
+  icon: React.ElementType;
+  color: string;    
 }
 
 interface FlippingCardProps {
   list: CardDetailsProps[];
 }
 
-const Card = ({ show, reveal }: CardProps) => {
+const Card = ({ show, reveal, color, }: CardProps) => {
   const common = "absolute flex w-full h-full  [backface-visibility:hidden]";
-  const colorsILike = ["#92a452", "#79ced1", "#ca932a", "#cb310e", "#b33139", "#a2527b", "#5fac4e","#d61b50", "#5ba6ed","#1e646f","#49de03","#5a215a","#0e643d","#175f76","#b2a6ff"];
-  const color = colorsILike[Math.floor(Math.random() * colorsILike.length)];
+  //const colorsILike = ["#92a452", "#79ced1", "#ca932a", "#cb310e", "#b33139", "#a2527b", "#5fac4e","#d61b50", "#5ba6ed","#1e646f","#49de03","#5a215a","#0e643d","#175f76","#b2a6ff"];
   //const color = `#${(((1 << 24) * Math.random()) | 0).toString(16).padStart(6, "0")}`; // Random color generator
-  console.log("color", color);
+  // console.log("color", color);
   return (
     <div className={cn("group h-60 w-48 [perspective:1000px]")}>
       <div
@@ -44,16 +45,17 @@ const Card = ({ show, reveal }: CardProps) => {
   );
 };
 
-const CardDetails = ({ title, font, bookList, icon }: CardDetailsProps) => {
+const CardDetails = ({ title, font, bookList, icon, color }: CardDetailsProps) => {
+    const IconComponent = icon; 
   return (
     <Card
       show={
-        <div className="flex w-full flex-col border-[1px] border-black/15 px-3 py-4 text-sm">
-          <span className="border-t-2 border-black pt-1">{font}</span>
+        <div className="flex w-full flex-col border-[1px] border-black/15 dark:border-white/15 px-3 py-4 text-sm bg-white dark:bg-black">
+          <span className="border-t-2 border-black dark:border-white pt-1">{font}</span>
 
-          <span className="mt-4 border-b-2 border-black px-1 font-serif text-8xl">{title}</span>
+          <span className="mt-4 border-b-2 border-black dark:border-white px-1 font-serif text-8xl">{title}</span>
           <div className="mt-12 flex items-center justify-between">
-            {icon}
+            {icon && <IconComponent size={18} className="text-black dark:text-white" />}
           </div>
         </div>
       }
@@ -73,10 +75,11 @@ const CardDetails = ({ title, font, bookList, icon }: CardDetailsProps) => {
     </div>
 
     <div className="flex items-center justify-end pt-2">
-      {icon}
+      {icon && <IconComponent size={18} color="white" />}
     </div>
   </div>
 }
+        color={color}
 
     />
   );
@@ -92,6 +95,7 @@ export default function FlippingCard({ list }: FlippingCardProps) {
           font={item.font}
           bookList={item.bookList}
           icon={item.icon}
+          color={item.color}
         />
       ))}
     </div>
