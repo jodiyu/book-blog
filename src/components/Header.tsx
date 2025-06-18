@@ -7,7 +7,7 @@ export function Header() {
             <header className="w-full flex justify-center items-center py-4 border-b">
                 <nav className="flex gap-6">
                     <Link href="/">
-                        <Button variant="ghost">Books</Button>
+                        <Button variant="ghost">Reviews</Button>
                     </Link>
                     <Link href="/recommendations">
                         <Button variant="ghost">Recommendations</Button>

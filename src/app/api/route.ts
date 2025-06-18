@@ -1,5 +1,5 @@
 import { db } from '@/lib/db';
-import { books } from '@/db/schema';
+import { books, contacts } from '@/db/schema';
 import { NextResponse } from 'next/server';
 
 // get all the books
@@ -8,18 +8,26 @@ export async function GET() {
   return NextResponse.json(allBooks);
 }
 
-// add a new book
-// export async function POST(req: Request) {
-//   const body = await req.json();
-//   const { title, author, quote, review, cover } = body;
+export async function POST(req: Request) {
+  try {
+    const body = await req.json();
+    const { firstName, lastName, email, message } = body;
 
-//   await db.insert(books).values({
-//     title,
-//     author,
-//     quote,
-//     review,
-//     cover,
-//   });
+    if (!firstName || !lastName || !email || !message) {
+      return NextResponse.json({ error: 'Missing required fields' }, { status: 400 });
+    }
 
-//   return NextResponse.json({ success: true });
-// }
+    // Insert using Drizzle ORM
+    await db.insert(contacts).values({
+      firstName,
+      lastName,
+      email,
+      message,
+    });
+
+    return NextResponse.json({ success: true });
+  } catch (error) {
+    console.error('Error inserting contact:', error);
+    return NextResponse.json({ error: 'Server error' }, { status: 500 });
+  }
+}
