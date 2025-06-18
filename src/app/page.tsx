@@ -28,19 +28,19 @@ export default function Library() {
     const[books, setBooks] = useState<Book[]>([]);
     const[selectedBook, setSelectedBook] = useState<Book | null>(null);
     const[booksPerRow, setBooksPerRow] = useState(6);
-    const[loading, setLoading] = useState(true);
+    //const[loading, setLoading] = useState(true);
     //const[imageLoaded, setImageLoaded] = useState(false);
 
     useEffect(() => {
-        setLoading(true);
+        //setLoading(true);
         getBooks()
           .then((data) => {
             setBooks(data); // Set books
-            setLoading(false);
+            //setLoading(false);
           })
           .catch((err) => {
             console.error("Error fetching books:", err);
-            setLoading(false);
+            //setLoading(false);
           }); 
     }, []);
 
@@ -60,13 +60,13 @@ export default function Library() {
     }, []);
     const chunkedBooks = chunkBooks(books, booksPerRow); // Get the array of arrays of book chunks
 
-    if (loading) { // Temp loading state
-        return (
-            <div className="flex items-center justify-center h-screen">
-                <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-blue-500"></div>
-            </div>
-        );
-    }
+    // if (loading) { // Temp loading state
+    //     return (
+    //         <div className="flex items-center justify-center h-screen">
+    //             <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-blue-500"></div>
+    //         </div>
+    //     );
+    // }
 
 
     return (
