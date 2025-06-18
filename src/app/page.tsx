@@ -29,7 +29,7 @@ export default function Library() {
     const[selectedBook, setSelectedBook] = useState<Book | null>(null);
     const[booksPerRow, setBooksPerRow] = useState(6);
     const[loading, setLoading] = useState(true);
-    const[imageLoaded, setImageLoaded] = useState(false);
+    //const[imageLoaded, setImageLoaded] = useState(false);
 
     useEffect(() => {
         setLoading(true);
