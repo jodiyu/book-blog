@@ -50,7 +50,7 @@ const CardDetails = ({ title, font, bookList, icon, color }: CardDetailsProps) =
   return (
     <Card
       show={
-        <div className="flex w-full flex-col border-[1px] border-black/15 dark:border-white/15 px-3 py-4 text-sm bg-white dark:bg-black">
+        <div className="flex w-full flex-col border-[1px] border-black/15 dark:border-white/40 px-3 py-4 text-sm bg-white dark:bg-black">
           <span className="border-t-2 border-black dark:border-white pt-1">{font}</span>
 
           <span className="mt-4 border-b-2 border-black dark:border-white px-1 font-serif text-8xl">{title}</span>

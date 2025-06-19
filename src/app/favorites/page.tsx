@@ -1,5 +1,5 @@
 import FlippingCard from "@/components/ui/flipping-card";
-import { Heart, Shell, UserRound, BookOpen, Syringe } from "lucide-react";
+import { Heart, Shell, UserRound, BookOpen, Syringe, Sword } from "lucide-react";
 
 const recommendationsList = [
     {
@@ -12,7 +12,7 @@ const recommendationsList = [
     {
         title: "F",
         font: "Fiction",
-        bookList:["I'll Give You The Sun", "Looking for Alaska", "Love Story", "Everything I Never Told You", "The Way of Kings"],
+        bookList:["I'll Give You The Sun", "Looking for Alaska", "Love Story", "Everything I Never Told You"],
         icon: Heart,
         color: "#ca932a" // mustard yellow
     },
@@ -36,7 +36,14 @@ const recommendationsList = [
         bookList: ["Dune"],
         icon: Shell,
         color: "#5a215a" // plum
-    }
+    },
+    {
+        title: "A",
+        font: "Adventure",
+        bookList: ["The Way of Kings", "Tress of the Emerald Sea"],
+        icon: Sword,
+        color: "#175f76" // dark blue
+    },
 
 ];
 

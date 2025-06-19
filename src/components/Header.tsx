@@ -9,8 +9,8 @@ export function Header() {
                     <Link href="/">
                         <Button variant="ghost">Reviews</Button>
                     </Link>
-                    <Link href="/recommendations">
-                        <Button variant="ghost">Recommendations</Button>
+                    <Link href="/favorites">
+                        <Button variant="ghost">Favorites</Button>
                     </Link>
                     <Link href="/contact">
                         <Button variant="ghost">Contact</Button>
