@@ -14,7 +14,7 @@ type Props = {
 export default function BookModal({ book, onClose }: Props) {
   return (
     <Dialog open onOpenChange={onClose}>
-      <DialogContent className="max-w-md max-h-[80vh] flex flex-col">
+      <DialogContent className="max-w-xl max-h-[80vh] flex flex-col">
         {/* Title and Author */}
         <div className="mb-1">
           <DialogTitle className="text-xl font-semibold mb-1">{book.title}</DialogTitle>
@@ -22,7 +22,7 @@ export default function BookModal({ book, onClose }: Props) {
         </div>
 
         {/* Scrollable Review Section */}
-        <div className="overflow-y-auto pr-2 mb-4 space-y-2 text-m flex-1">
+        <div className="overflow-y-auto scrollbar-hide pr-2 mb-4 space-y-2 text-m flex-1">
           {book.quote && <blockquote className="italic text-gray-700 dark:text-gray-300">“{book.quote}”</blockquote>}
           {book.review && <p className="whitespace-pre-line">{book.review}</p>}
         </div>
