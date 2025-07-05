@@ -12,7 +12,7 @@ const recommendationsList = [
     {
         title: "F",
         font: "Fiction",
-        bookList:["I'll Give You The Sun", "Looking for Alaska", "Love Story", "Everything I Never Told You"],
+        bookList:["I'll Give You The Sun", "Looking for Alaska", "Love Story", "Everything I Never Told You", "The Girl with the Dragon Tattoo"],
         icon: Heart,
         color: "#ca932a" // mustard yellow
     },

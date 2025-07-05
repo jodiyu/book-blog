@@ -18,9 +18,21 @@ type Book = {
 // Helper function: Takes in the array of books and the chunk size determined by screen dimensions and returns an array of arrays (chunks) of books
 function chunkBooks<Book>(array: Book[], chunkSize:number): Book[][] {
     const result: Book[][] = []; 
-    for (let i = 0; i < array.length; i += chunkSize) {
+    const numRows = Math.floor(array.length/chunkSize); // Number of rows with equal chunk sizes
+    const remainder = array.length - numRows * chunkSize; // Leftover books in the last row
+    for (let i = 0; i < numRows * chunkSize; i += chunkSize) {
         result.push(array.slice(i, i + chunkSize));
     }
+
+    let j = 0; // index for result arr
+    for (let i = numRows * chunkSize; i < numRows * chunkSize + remainder; i++) {
+      result[j].push(array[i]);
+      j++;
+      if (j == result.length) {
+        j = 0; // reset index
+      } 
+    }
+
     return result;
 }
 
@@ -46,10 +58,10 @@ export default function Library() {
     useEffect(() => {
         const updateBooksPerRow = () => {
             const width = window.innerWidth; // Get the current screen width
-            if (width > 1536) setBooksPerRow(6);
-            else if (width > 1280) setBooksPerRow(5);
-            else if (width > 1024) setBooksPerRow(4);
-            else if (width > 640) setBooksPerRow(3);
+            if (width > 1536) setBooksPerRow(5);
+            else if (width > 1280) setBooksPerRow(4);
+            else if (width > 1024) setBooksPerRow(3);
+            else if (width > 640) setBooksPerRow(2);
             else setBooksPerRow(2);
         };
 
