@@ -36,6 +36,12 @@ interface MarqueeProps extends React.HTMLAttributes<HTMLDivElement> {
    * @default false
    */
   pauseOnModal?: boolean;
+
+  /**
+   * Pause the marquee animation when the modal opens.
+   * @default "50s"
+   */
+  speed?: string;
 }
 
 export default function Marquee({
@@ -47,6 +53,7 @@ export default function Marquee({
   className,
   applyMask = true,
   pauseOnModal = false,
+  speed = "50s",
   ...props
 }: MarqueeProps) {
   return (
@@ -60,6 +67,10 @@ export default function Marquee({
         },
         className,
       )}
+      style={{
+        ...props.style,
+        "--duration": speed,
+      } as React.CSSProperties}
     >
       {Array.from({ length: repeat }).map((_, index) => (
         <div

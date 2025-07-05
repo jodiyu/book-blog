@@ -86,10 +86,10 @@ export default function Library() {
         <Marquee
           key={i}
           reverse={i % 2 === 0} // Alternating directions for each row
-          className={`[--duration:50s]`} // How long it takes for the entire length of the content to scroll
           pauseOnHover={true}
           applyMask={false}
           pauseOnModal={!!selectedBook}
+          speed="100s"
         >
           {row.map((book) => (
             <div key={book.id} className="flex flex-col px-3 items-center">

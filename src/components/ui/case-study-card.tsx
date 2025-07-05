@@ -22,7 +22,7 @@ const SimpleImageCard: React.FC<CaseStudyCardProps> = ({ image, title, setIsLoad
           fill
           sizes="(max-width: 768px) 50vw, 200px"
           className="object-cover transition-opacity duration-500"
-          onLoadingComplete={() => setIsLoading?.(false)}
+          onLoad={() => setIsLoading?.(false)}
         />
     </div>
   );
