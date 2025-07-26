@@ -71,12 +71,16 @@ export default function Library() {
     }, []);
     const chunkedBooks = chunkBooks(books, booksPerRow); // Get the array of arrays of book chunks
 
-    if (loading) { // Temp loading state
+    if (loading) { // Skeleton loaders
         return (
-            <div className="flex items-center justify-center h-screen">
-                <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-blue-500"></div>
-            </div>
-        );
+    <div className="p-4 grid grid-cols-3 sm:grid-cols-4 md:grid-cols-7 gap-8">
+      {Array.from({ length: 21 }).map((_, i) => (
+        <div key={i} className="animate-pulse">
+          <div className="bg-gray-300 h-60 w-full rounded-md" />
+        </div>
+      ))}
+    </div>
+  );
     }
 
 
