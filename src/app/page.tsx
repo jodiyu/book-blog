@@ -43,7 +43,6 @@ export default function Library() {
     const[loading, setLoading] = useState(true);
 
     useEffect(() => {
-        setLoading(true);
         getBooks()
           .then((data) => {
             setBooks(data); // Set books
@@ -71,18 +70,17 @@ export default function Library() {
     }, []);
     const chunkedBooks = chunkBooks(books, booksPerRow); // Get the array of arrays of book chunks
 
-    if (loading) { // Skeleton loaders
+      if (loading) { // Skeleton loaders
         return (
-    <div className="p-4 grid grid-cols-3 sm:grid-cols-4 md:grid-cols-7 gap-8">
-      {Array.from({ length: 21 }).map((_, i) => (
-        <div key={i} className="animate-pulse">
-          <div className="bg-gray-300 h-60 w-full rounded-md" />
+        <div className="p-4 grid grid-cols-3 sm:grid-cols-4 md:grid-cols-7 gap-8">
+          {Array.from({ length: 21 }).map((_, i) => (
+            <div key={i} className="animate-pulse">
+              <div className="bg-gray-600 h-60 w-full rounded-md" />
+            </div>
+          ))}
         </div>
-      ))}
-    </div>
-  );
+      );
     }
-
 
     return (
     <div className="space-y-6 p-6 overflow-x-hidden">
