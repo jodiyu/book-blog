@@ -1,47 +1,69 @@
 import FlippingCard from "@/components/ui/flipping-card";
-import { Heart, Shell, UserRound, BookOpen, Syringe, Sword } from "lucide-react";
 
 const recommendationsList = [
     {
         title: "C",               
         font: "Classics",    
-        bookList: ["Frankenstein", "Pride and Prejudice"],
-        icon: BookOpen,
+        bookList: [
+            { title: "Frankenstein", dateRead: "2021" },
+            { title: "Pride and Prejudice", dateRead: "2020" }
+        ],
+        iconName: "BookOpen",
         color: "#5ba6ed" // blue
     },
     {
         title: "F",
         font: "Fiction",
-        bookList:["I'll Give You The Sun", "Looking for Alaska", "Love Story", "Everything I Never Told You", "The Girl with the Dragon Tattoo"],
-        icon: Heart,
+        bookList: [
+            { title: "I'll Give You The Sun", dateRead: "2023" },
+            { title: "Looking for Alaska", dateRead: "2016" },
+            { title: "Love Story", dateRead: "2020" },
+            { title: "Everything I Never Told You", dateRead: "2021" },
+            { title: "The Girl with the Dragon Tattoo", dateRead: "2024" }
+        ],
+        iconName: "Heart",
         color: "#ca932a" // mustard yellow
     },
     {
         title: "M",
         font: "Memoirs",
-        bookList: ["Small Fry", "Educated", "When Breath Becomes Air", "Between Two Kingdoms","Reading with Patrick"],
-        icon: UserRound,
+        bookList: [
+            { title: "Small Fry", dateRead: "2021" },
+            { title: "Educated", dateRead: "2021" },
+            { title: "When Breath Becomes Air", dateRead: "2024" },
+            { title: "Between Two Kingdoms", dateRead: "2023" },
+            { title: "Reading with Patrick", dateRead: "2025" },
+            { title: "The Last Lecture", dateRead: "2025" }
+        ],
+        iconName: "UserRound",
         color: "#5fac4e" // medium green
     },
     {
         title: "N",
         font: "Nonfiction",
-        bookList: ["Bad Blood: Secrets and Lies in a Silicon Valley Startup"],
-        icon: Syringe,
+        bookList: [
+            { title: "Bad Blood: Secrets and Lies in a Silicon Valley Startup", dateRead: "2022" }
+        ],
+        iconName: "Syringe",
         color: "#b33139" // deep red
     },
     {
         title: "S",
         font: "Science Fiction",
-        bookList: ["Dune"],
-        icon: Shell,
+        bookList: [
+            { title: "Dune", dateRead: "2023" }
+        ],
+        iconName: "Shell",
         color: "#5a215a" // plum
     },
     {
         title: "A",
         font: "Adventure",
-        bookList: ["The Way of Kings", "Tress of the Emerald Sea"],
-        icon: Sword,
+        bookList: [
+            { title: "The Way of Kings", dateRead: "2025" },
+            { title: "Tress of the Emerald Sea", dateRead: "2024" }
+        ],
+        iconName: "Sword",
         color: "#175f76" // dark blue
     },
 

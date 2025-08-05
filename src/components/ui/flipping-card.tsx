@@ -1,17 +1,42 @@
+'use client';
+
 import Marquee from "@/components/ui/marquee";
 import { cn } from "@/lib/utils";
+import { useState } from "react";
+import { Heart, Shell, UserRound, BookOpen, Syringe, Sword } from "lucide-react";
+import { HoverCard, HoverCardContent, HoverCardTrigger } from "@/components/ui/hover-card"
+import { CalendarIcon } from "lucide-react"
+
+
+
+// Icon mapping
+const iconMap = {
+  Heart,
+  Shell,
+  UserRound,
+  BookOpen,
+  Syringe,
+  Sword,
+};
 
 interface CardProps {
   show: React.ReactNode;
   reveal: React.ReactNode;
   color: string;
+  isFlipped: boolean;
+  onFlip: () => void;
+}
+
+interface Book {
+  title: string;
+  dateRead: string;
 }
 
 interface CardDetailsProps extends React.HTMLAttributes<HTMLDivElement> {
   title: string;
   font: string;
-  bookList: string[];
-  icon: React.ElementType;
+  bookList: Book[];
+  iconName: string;
   color: string;    
 }
 
@@ -19,16 +44,18 @@ interface FlippingCardProps {
   list: CardDetailsProps[];
 }
 
-const Card = ({ show, reveal, color, }: CardProps) => {
+
+
+const Card = ({ show, reveal, color, isFlipped, onFlip }: CardProps) => {
   const common = "absolute flex w-full h-full  [backface-visibility:hidden]";
-  //const colorsILike = ["#92a452", "#79ced1", "#ca932a", "#cb310e", "#b33139", "#a2527b", "#5fac4e","#d61b50", "#5ba6ed","#1e646f","#49de03","#5a215a","#0e643d","#175f76","#b2a6ff"];
-  //const color = `#${(((1 << 24) * Math.random()) | 0).toString(16).padStart(6, "0")}`; // Random color generator
-  // console.log("color", color);
   return (
-    <div className={cn("group h-60 w-48 [perspective:1000px]")}>
+    <div className={cn(
+      "group h-60 w-48 [perspective:1000px]",
+    )} onClick={onFlip}>
       <div
         className={cn(
-          "relative h-full transition-all delay-75 duration-500 ease-linear [transform-style:preserve-3d] group-hover:[transform:rotateY(-180deg)]",
+          "relative h-full transition-all delay-75 duration-500 ease-linear [transform-style:preserve-3d]",
+          isFlipped ? "[transform:rotateY(-180deg)]" : ""
         )}
       >
         <div className={cn("bg-white", common)}>{show}</div>
@@ -45,17 +72,22 @@ const Card = ({ show, reveal, color, }: CardProps) => {
   );
 };
 
-const CardDetails = ({ title, font, bookList, icon, color }: CardDetailsProps) => {
-    const IconComponent = icon; 
+const CardDetails = ({ title, font, bookList, iconName, color }: CardDetailsProps) => {
+    const IconComponent = iconMap[iconName as keyof typeof iconMap]; 
+    const [isFlipped, setIsFlipped] = useState(false);
+
+    const handleFlip = () => {
+      setIsFlipped(!isFlipped);
+    };
+
   return (
     <Card
       show={
-        <div className="flex w-full flex-col border-[1px] border-black/15 dark:border-white/40 px-3 py-4 text-sm bg-white dark:bg-black">
-          <span className="border-t-2 border-black dark:border-white pt-1">{font}</span>
-
-          <span className="mt-4 border-b-2 border-black dark:border-white px-1 font-serif text-8xl">{title}</span>
+        <div className="flex w-full flex-col border-[1px] border-black/15 dark:border-white/40 bg-background px-3 py-4 text-sm hover:bg-accent hover:text-accent-foreground transition-colors duration-200 shadow-sm">
+          <span className="border-t-2 border-black dark:border-white pt-1 group-hover:border-accent-foreground transition-colors duration-200">{font}</span>
+          <span className="mt-4 border-b-2 border-black dark:border-white px-1 font-serif text-8xl group-hover:border-accent-foreground transition-colors duration-200">{title}</span>
           <div className="mt-12 flex items-center justify-between">
-            {icon && <IconComponent size={18} className="text-black dark:text-white" />}
+            {IconComponent && <IconComponent size={18} className="transition-colors duration-200" />}
           </div>
         </div>
       }
@@ -64,7 +96,24 @@ const CardDetails = ({ title, font, bookList, icon, color }: CardDetailsProps) =
 
     <ul className="text-white flex-1 list-inside">
       {bookList.map((book, i) => (
-        <li key={i}>{book}</li>
+        <li key={i}>
+          <HoverCard>
+            <HoverCardTrigger className="cursor-pointer hover:underline">
+              {book.title}
+            </HoverCardTrigger>
+            <HoverCardContent className="w-80">
+              <div className="space-y-1">
+                <h4 className="text-sm font-semibold">{book.title}</h4>
+                <div className="flex items-center pt-2">
+                  <CalendarIcon className="mr-2 h-4 w-4 opacity-70" />{" "}
+                <span className="text-xs text-muted-foreground">
+                  Year read: { book.dateRead }
+                </span>
+              </div>
+              </div>
+            </HoverCardContent>
+          </HoverCard>
+        </li>
       ))}
     </ul>
     <div className="flex-1"></div>  {/* Wraps nothing to push everything to the bottom */}
@@ -75,11 +124,13 @@ const CardDetails = ({ title, font, bookList, icon, color }: CardDetailsProps) =
     </div>
 
     <div className="flex items-center justify-end pt-2">
-      {icon && <IconComponent size={18} color="white" />}
+      {IconComponent && <IconComponent size={18} color="white" />}
     </div>
   </div>
 }
         color={color}
+        isFlipped={isFlipped}
+        onFlip={handleFlip}
 
     />
   );
@@ -94,7 +145,7 @@ export default function FlippingCard({ list }: FlippingCardProps) {
           title={item.title}
           font={item.font}
           bookList={item.bookList}
-          icon={item.icon}
+          iconName={item.iconName}
           color={item.color}
         />
       ))}
