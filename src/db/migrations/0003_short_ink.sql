@@ -1,0 +1,1 @@
+ALTER TABLE "essays" ADD COLUMN "description" text NOT NULL;

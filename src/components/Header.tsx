@@ -12,8 +12,11 @@ export function Header() {
                     <Link href="/favorites">
                         <Button variant="ghost">Favorites</Button>
                     </Link>
-                    <Link href="/contact">
-                        <Button variant="ghost">Contact</Button>
+                    <Link href="/essays">
+                        <Button variant="ghost">Essays</Button>
+                    </Link>
+                    <Link href="/about">
+                        <Button variant="ghost">About</Button>
                     </Link>
                 </nav>
                 <div className="absolute right-6">

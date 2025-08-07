@@ -70,6 +70,9 @@ export default {
 			"marquee-horizontal": "marquee-x var(--duration) infinite linear",
 			"marquee-vertical": "marquee-y var(--duration) linear infinite",
         },
+		fontFamily: {
+			serif: ['"Times New Roman"', "serif"],
+		},
     },
 },
 

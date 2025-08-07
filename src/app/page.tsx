@@ -43,8 +43,10 @@ export default function Library() {
     const[loading, setLoading] = useState(true);
 
     useEffect(() => {
+      console.time("API Call Books")
         getBooks()
           .then((data) => {
+            console.timeEnd("API Call Books")
             setBooks(data); // Set books
             setLoading(false);
           })
@@ -72,10 +74,10 @@ export default function Library() {
 
       if (loading) { // Skeleton loaders
         return (
-        <div className="p-4 grid grid-cols-3 sm:grid-cols-4 md:grid-cols-7 gap-8">
+        <div className="p-4 pt-10 grid grid-cols-3 sm:grid-cols-4 md:grid-cols-7 gap-8">
           {Array.from({ length: 21 }).map((_, i) => (
             <div key={i} className="animate-pulse">
-              <div className="bg-gray-600 h-60 w-full rounded-md" />
+              <div className="bg-gray-200 dark:bg-gray-800 h-60 w-full rounded-md" />
             </div>
           ))}
         </div>

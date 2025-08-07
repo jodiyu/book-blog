@@ -1,33 +1,55 @@
 import { db } from '@/lib/db';
-import { books, contacts } from '@/db/schema';
+import { books } from '@/db/schema';
 import { NextResponse } from 'next/server';
 
 // get all the books
+// export async function GET() {
+//   const allBooks = await db.select().from(books);
+//   return NextResponse.json(allBooks);
+// }
+
 export async function GET() {
-  const allBooks = await db.select().from(books);
-  return NextResponse.json(allBooks);
-}
-
-export async function POST(req: Request) {
   try {
-    const body = await req.json();
-    const { firstName, lastName, email, message } = body;
+    const result = await db
+      .select({
+        id: books.id,
+        title: books.title,
+        author: books.author,
+        cover: books.cover,
+        review: books.review
+      })
+      .from(books)
+      .orderBy(books.id);
+      return NextResponse.json(result);
+  } catch (err) {
+    console.error("Error fetching books: ", err);
+    return NextResponse.json({ error: "Internal server error" }, { status: 500 });
 
-    if (!firstName || !lastName || !email || !message) {
-      return NextResponse.json({ error: 'Missing required fields' }, { status: 400 });
-    }
-
-    // Insert using Drizzle ORM
-    await db.insert(contacts).values({
-      firstName,
-      lastName,
-      email,
-      message,
-    });
-
-    return NextResponse.json({ success: true });
-  } catch (error) {
-    console.error('Error inserting contact:', error);
-    return NextResponse.json({ error: 'Server error' }, { status: 500 });
   }
 }
+
+
+// Contact: Deprecated
+// export async function POST(req: Request) {
+//   try {
+//     const body = await req.json();
+//     const { firstName, lastName, email, message } = body;
+
+//     if (!firstName || !lastName || !email || !message) {
+//       return NextResponse.json({ error: 'Missing required fields' }, { status: 400 });
+//     }
+
+//     // Insert using Drizzle ORM
+//     await db.insert(contacts).values({
+//       firstName,
+//       lastName,
+//       email,
+//       message,
+//     });
+
+//     return NextResponse.json({ success: true });
+//   } catch (error) {
+//     console.error('Error inserting contact:', error);
+//     return NextResponse.json({ error: 'Server error' }, { status: 500 });
+//   }
+// }
