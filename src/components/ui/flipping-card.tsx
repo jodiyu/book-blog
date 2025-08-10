@@ -30,6 +30,7 @@ interface CardProps {
 interface Book {
   title: string;
   dateRead: string;
+  author: string;
 }
 
 interface CardDetailsProps extends React.HTMLAttributes<HTMLDivElement> {
@@ -98,12 +99,13 @@ const CardDetails = ({ title, font, bookList, iconName, color }: CardDetailsProp
       {bookList.map((book, i) => (
         <li key={i}>
           <HoverCard>
-            <HoverCardTrigger className="cursor-pointer hover:underline">
+            <HoverCardTrigger className="cursor-pointer hover:bg-primary/30">
               {book.title}
             </HoverCardTrigger>
             <HoverCardContent className="w-80">
               <div className="space-y-1">
                 <h4 className="text-sm font-semibold">{book.title}</h4>
+                <h4 className="text-xs">Author: {book.author}</h4>
                 <div className="flex items-center pt-2">
                   <CalendarIcon className="mr-2 h-4 w-4 opacity-70" />{" "}
                 <span className="text-xs text-muted-foreground">
@@ -123,9 +125,6 @@ const CardDetails = ({ title, font, bookList, iconName, color }: CardDetailsProp
         </Marquee>
     </div>
 
-    <div className="flex items-center justify-end pt-2">
-      {IconComponent && <IconComponent size={18} color="white" />}
-    </div>
   </div>
 }
         color={color}
