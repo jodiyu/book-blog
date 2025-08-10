@@ -21,9 +21,9 @@ export default async function EssayPage({ params }: EssayPageProps) {
   if (!essay) return notFound();
 
   return (
-    <main className="max-w-[700px] mx-auto p-8 font-serif text-md leading-relaxed">
+    <main className="max-w-[700px] mx-auto p-8 font-times text-md leading-relaxed">
       <BackButton />
-      <h1 className="text-2xl font-bold mb-2 text-foreground">{essay.title}</h1>
+      <h1 className="text-2xl font-semibold mb-2 text-foreground">{essay.title}</h1>
 
       <div className="text-muted-foreground text-sm mb-6">
         <span>By {essay.author}</span> &middot;{" "}
@@ -32,11 +32,16 @@ export default async function EssayPage({ params }: EssayPageProps) {
 
       {essay.content
         .split(/\n{2,}/)
-        .map((para, idx) => (
-          <p key={idx} className="mb-4 indent-8">
-            {para}
-          </p>
-        ))}
+        .map((para, idx) => {
+          const html = para.replace(/~(.*?)~/g, "<em>$1</em>"); // Match text between ~ delimeter and italicize
+          return (
+            <p 
+              key={idx} 
+              className="mb-4 indent-8"
+              dangerouslySetInnerHTML={{ __html: html }} // Injecting HTML tags into a String
+            />
+          );
+        })}
 
     </main>
   );

@@ -16,7 +16,8 @@ export async function GET() {
         title: books.title,
         author: books.author,
         cover: books.cover,
-        review: books.review
+        review: books.review,
+        quote: books.quote,
       })
       .from(books)
       .orderBy(books.id);

@@ -85,7 +85,7 @@ const CardDetails = ({ title, font, bookList, iconName, color }: CardDetailsProp
       show={
         <div className="flex w-full flex-col border-[1px] border-black/15 dark:border-white/40 bg-background px-3 py-4 text-sm hover:bg-accent hover:text-accent-foreground transition-colors duration-200 shadow-sm">
           <span className="border-t-2 border-black dark:border-white pt-1 group-hover:border-accent-foreground transition-colors duration-200">{font}</span>
-          <span className="mt-4 border-b-2 border-black dark:border-white px-1 font-serif text-8xl group-hover:border-accent-foreground transition-colors duration-200">{title}</span>
+          <span className="mt-4 border-b-2 border-black dark:border-white px-1 font-times text-8xl group-hover:border-accent-foreground transition-colors duration-200">{title}</span>
           <div className="mt-12 flex items-center justify-between">
             {IconComponent && <IconComponent size={18} className="transition-colors duration-200" />}
           </div>
@@ -118,7 +118,7 @@ const CardDetails = ({ title, font, bookList, iconName, color }: CardDetailsProp
     </ul>
     <div className="flex-1"></div>  {/* Wraps nothing to push everything to the bottom */}
     <div>
-        <Marquee className="font-serif text-5xl text-white mb-1x" applyMask={false}>
+        <Marquee className="font-times text-5xl text-white mb-1x" applyMask={false}>
         {font.split(" ")[0]}
         </Marquee>
     </div>

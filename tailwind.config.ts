@@ -1,5 +1,6 @@
 import type { Config } from "tailwindcss";
 
+
 export default {
     darkMode: ["class"],
     content: [
@@ -71,7 +72,8 @@ export default {
 			"marquee-vertical": "marquee-y var(--duration) linear infinite",
         },
 		fontFamily: {
-			serif: ['"Times New Roman"', "serif"],
+			times: ['"Times New Roman"', "serif"],
+			georgia: ['"georgia"', "serif"],
 		},
     },
 },
