@@ -44,7 +44,7 @@ export default function Library() {
 
     useEffect(() => {
       console.time("API Call Books")
-        getBooks()
+        getBooks() // Client side fetching of books because of useEffect() (CSR - client side rendering)
           .then((data) => {
             console.timeEnd("API Call Books")
             setBooks(data); // Set books

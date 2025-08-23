@@ -11,10 +11,12 @@ interface EssayPageProps {
   params: Promise<{ slug: string }>;
 }
 
+// Dynamic route [slug], force rerender each build
+
 export default async function EssayPage({ params }: EssayPageProps) {
   const wait = await params; // Params is asynchronous and is passed as a Promise so it needs an await
   const slug = wait.slug;
-  const result = await db.select().from(essays).where(eq(essays.slug, slug)); // server component
+  const result = await db.select().from(essays).where(eq(essays.slug, slug)); // Server rendered by default (SSR)
   const essay = result[0];
 
 

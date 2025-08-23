@@ -5,7 +5,7 @@ import { HoverCard, HoverCardContent, HoverCardTrigger } from "@/components/ui/h
 export default function AboutAuthor() {
   return (
     <main className="max-w-md mx-auto p-8 text-base leading-relaxed">
-      <section className="flex flex-col items-center space-y-6">
+      <section className="flex flex-col items-center space-y-6 font-georgia">
 
         {/* Author name */}
         <h1 className="text-2xl font-bold">Jodi Yu</h1>

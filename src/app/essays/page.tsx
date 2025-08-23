@@ -3,8 +3,11 @@ import { essays } from "@/db/schema"
 import Link from "next/link"
 import { format } from "date-fns";
 
+export const dynamic = "force-dynamic"; // Do not statically pre-render this route at the time of the deploy / do not cache the HTML
+
 export default async function EssayList() {
-  const allEssays = await db.select().from(essays).orderBy(essays.createdAt) // Server component (DB call) for static rendering
+  const allEssays = await db.select().from(essays).orderBy(essays.createdAt) // Static inputs only, generats SSG (static site generation) at built time
+  console.log("All essays: ", allEssays);
 
   return (
     <main className="max-w-3xl mx-auto px-4 py-12 font-times">
