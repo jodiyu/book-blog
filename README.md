@@ -14,6 +14,7 @@ Book blog platform built with **Next.js**, **TypeScript**, and **Tailwind CSS**.
 - **Frontend**: Next.js, TypeScript, TailwindCSS, shadcn/ui
 - **Database**: Neon Postgres with Drizzle ORM
 - **Storage**: AWS S3
+- **Hosting**: Deployed on Vercel
 
 ## Project Structure
 ```plaintext
