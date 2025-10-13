@@ -66,10 +66,15 @@ export default {
 			from: { transform: "translateY(0)" },
 			to: { transform: "translateY(calc(-100% - var(--gap)))" },
 			},
+			"fade-in": {
+				"0%": { opacity: "0", filter: "blur(8px)" },
+          		"100%": { opacity: "1", filter: "blur(0)" },
+			}
       	},
       	animation: {
 			"marquee-horizontal": "marquee-x var(--duration) infinite linear",
 			"marquee-vertical": "marquee-y var(--duration) linear infinite",
+			"fade-in-blur": "fade-in 1.2s ease-out forwards",
         },
 		fontFamily: {
 			times: ['"Times New Roman"', "serif"],

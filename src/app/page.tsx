@@ -42,7 +42,7 @@ export default function Library() {
     const[selectedBook, setSelectedBook] = useState<Book | null>(null);
     const[booksPerRow, setBooksPerRow] = useState(6);
     const[loading, setLoading] = useState(true);
-    const LOADING_MS = 2500; 
+    const LOADING_MS = 3500; 
 
     useEffect(() => {
       console.time("API Call Books");
