@@ -5,6 +5,7 @@ import { getBooks } from '@/lib/api';
 import BookModal from '@/components/BookModal';
 import Marquee from '@/components/ui/marquee';
 import CaseStudyCard from '@/components/ui/case-study-card';
+import RandomQuote from '@/components/ui/random-quote';
 
 type Book = {
     id: number;
@@ -41,19 +42,53 @@ export default function Library() {
     const[selectedBook, setSelectedBook] = useState<Book | null>(null);
     const[booksPerRow, setBooksPerRow] = useState(6);
     const[loading, setLoading] = useState(true);
+    const LOADING_MS = 2500; 
 
     useEffect(() => {
-      console.time("API Call Books")
-        getBooks() // Client side fetching of books because of useEffect() (CSR - client side rendering)
-          .then((data) => {
-            console.timeEnd("API Call Books")
-            setBooks(data); // Set books
+      console.time("API Call Books");
+      const start = Date.now();
+      let timeoutId: number | null = null;
+      let isCancelled = false;
+
+      getBooks() // Client side fetching of books because of useEffect() (CSR - client side rendering)
+        .then((data) => {
+          if (isCancelled) return;
+          console.timeEnd("API Call Books");
+          setBooks(data); // Set books
+          const elapsed = Date.now() - start;
+          console.log("TIME ELAPSED:", elapsed);
+          
+          if (elapsed < LOADING_MS) {
+            const remaining = LOADING_MS - elapsed;
+            console.log("ELONGATED TIME:", remaining);
+            timeoutId = window.setTimeout(() => {
+              if (!isCancelled) setLoading(false);
+            }, remaining);
+          } else {
+            // If already took longer than minimum time, clear loading immediately
             setLoading(false);
-          })
-          .catch((err) => {
-            console.error("Error fetching books:", err);
-            setLoading(false);
-          }); 
+          }
+        })
+        .catch((err) => {
+          console.error("Error fetching books:", err);
+          if (!isCancelled) {
+            // Also respect minimum loading time on errors for consistent UX
+            const elapsed = Date.now() - start;
+            if (elapsed < LOADING_MS) {
+              const remaining = LOADING_MS - elapsed;
+              timeoutId = window.setTimeout(() => {
+                if (!isCancelled) setLoading(false);
+              }, remaining);
+            } else {
+              setLoading(false);
+            }
+          }
+        });
+
+      return () => {
+        isCancelled = true;
+        if (timeoutId) window.clearTimeout(timeoutId);
+      };
     }, []);
 
     useEffect(() => {
@@ -72,17 +107,25 @@ export default function Library() {
     }, []);
     const chunkedBooks = chunkBooks(books, booksPerRow); // Get the array of arrays of book chunks
 
-      if (loading) { // Skeleton loaders
-        return (
-        <div className="p-4 pt-10 grid grid-cols-3 sm:grid-cols-4 md:grid-cols-7 gap-8">
-          {Array.from({ length: 21 }).map((_, i) => (
-            <div key={i} className="animate-pulse">
-              <div className="bg-gray-200 dark:bg-gray-800 h-60 w-full rounded-md" />
-            </div>
-          ))}
+    if (loading) { // Show rotating quotes while books load
+      return (
+        <div className="min-h-[60vh] flex items-center justify-center p-6">
+          <RandomQuote />
         </div>
       );
     }
+
+    //   if (loading) { // Skeleton loaders
+    //     return (
+    //     <div className="p-4 pt-10 grid grid-cols-3 sm:grid-cols-4 md:grid-cols-7 gap-8">
+    //       {Array.from({ length: 21 }).map((_, i) => (
+    //         <div key={i} className="animate-pulse">
+    //           <div className="bg-gray-200 dark:bg-gray-800 h-60 w-full rounded-md" />
+    //         </div>
+    //       ))}
+    //     </div>
+    //   );
+    // }
 
     return (
     <div className="space-y-6 p-6 overflow-x-hidden">
