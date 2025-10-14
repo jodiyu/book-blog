@@ -45,7 +45,7 @@ export default function RandomQuote({ quotes = defaultQuotes }: RandomQuoteProps
 
     return (
         <div className="quotes-rotator" role="status" aria-live="polite">
-            <div className={`max-w-2xl mx-auto text-center px-4 py-6 ${isVisible ? 'animate-fade-in-blur' : 'opacity-0'}`}>
+            <div className={`max-w-2xl mx-auto text-center px-4 py-6 font-serif ${isVisible ? 'animate-fade-in-blur' : 'opacity-0'}`}>
                 <p className="text-sm sm:text-base text-gray-700 dark:text-gray-200 italic leading-relaxed">&ldquo;{current.text}&rdquo;</p>
                 {current.author && <p className="mt-2 text-xs text-gray-500 dark:text-gray-400">— {current.author}</p>}
             </div>
