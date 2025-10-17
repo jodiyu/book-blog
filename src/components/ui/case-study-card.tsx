@@ -92,7 +92,7 @@ const HoverRevealSlip = ({ show, image, isLoading }: { show: React.ReactNode; im
       
        <div
         className={cn(
-          "slide-tab absolute bottom-0 right-0 flex h-48 w-14 -translate-x-10 transform items-start justify-start rounded-r-lg bg-black dark:bg-white pl-2 pt-2 text-xs font-bold text-white dark:text-black transition-all duration-500",
+          "slide-tab absolute bottom-0 right-0 flex h-48 w-14 -translate-x-10 transform items-start justify-start rounded-r-lg bg-black dark:bg-gray-300 pl-2 pt-2 text-xs font-bold text-white dark:text-black transition-all duration-500",
           showTab ? "opacity-100 pointer-events-auto z-10" : "opacity-0 pointer-events-none -z-10"
         )}
       >

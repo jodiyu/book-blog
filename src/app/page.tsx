@@ -1,5 +1,7 @@
 'use client';
 
+import useSWR from 'swr'
+
 import { useEffect, useState } from 'react';
 import { getBooks } from '@/lib/api';
 import BookModal from '@/components/BookModal';
@@ -37,59 +39,49 @@ function chunkBooks<Book>(array: Book[], chunkSize:number): Book[][] {
     return result;
 }
 
+// SWR fetcher function
+const fetcher = () => getBooks();
+
 export default function Library() {
-    const[books, setBooks] = useState<Book[]>([]);
+    // Use SWR for book fetching with client side caching
+    const { data: books, error, isLoading } = useSWR<Book[]>('/api/books', fetcher, {
+        revalidateOnFocus: false,
+        revalidateOnReconnect: true, // Refetch when reconnecting
+        dedupingInterval: 60000, //60 seconds
+    });
+
     const[selectedBook, setSelectedBook] = useState<Book | null>(null);
     const[booksPerRow, setBooksPerRow] = useState(6);
-    const[loading, setLoading] = useState(true);
-    const LOADING_MS = 3500; 
+    const[showContent, setShowContent] = useState(false);
+    const[hasShownInitialLoad, setHasShownInitialLoad] = useState(false); // Track if we've done initial load
+    const LOADING_MS = 5500;
+    const loadStartRef = useState(() => Date.now())[0];
 
+    // Handle minimum loading time (only on initial mount)
     useEffect(() => {
-      console.time("API Call Books");
-      const start = Date.now();
-      let timeoutId: number | null = null;
-      let isCancelled = false;
+      if (!isLoading && books) {
+        // If we've already shown the initial load, show content immediately (cached data)
+        if (hasShownInitialLoad) {
+          setShowContent(true);
+          return;
+        }
 
-      getBooks() // Client side fetching of books because of useEffect() (CSR - client side rendering)
-        .then((data) => {
-          if (isCancelled) return;
-          console.timeEnd("API Call Books");
-          setBooks(data); // Set books
-          const elapsed = Date.now() - start;
-          console.log("TIME ELAPSED:", elapsed);
-          
-          if (elapsed < LOADING_MS) {
-            const remaining = LOADING_MS - elapsed;
-            console.log("ELONGATED TIME:", remaining);
-            timeoutId = window.setTimeout(() => {
-              if (!isCancelled) setLoading(false);
-            }, remaining);
-          } else {
-            // If already took longer than minimum time, clear loading immediately
-            setLoading(false);
-          }
-        })
-        .catch((err) => {
-          console.error("Error fetching books:", err);
-          if (!isCancelled) {
-            // Also respect minimum loading time on errors for consistent UX
-            const elapsed = Date.now() - start;
-            if (elapsed < LOADING_MS) {
-              const remaining = LOADING_MS - elapsed;
-              timeoutId = window.setTimeout(() => {
-                if (!isCancelled) setLoading(false);
-              }, remaining);
-            } else {
-              setLoading(false);
-            }
-          }
-        });
-
-      return () => {
-        isCancelled = true;
-        if (timeoutId) window.clearTimeout(timeoutId);
-      };
-    }, []);
+        // First time loading - enforce minimum loading time
+        const elapsed = Date.now() - loadStartRef;
+        
+        if (elapsed < LOADING_MS) {
+          const remaining = LOADING_MS - elapsed;
+          const timer = setTimeout(() => {
+            setShowContent(true);
+            setHasShownInitialLoad(true); // Mark that we've shown initial load
+          }, remaining);
+          return () => clearTimeout(timer);
+        } else {
+          setShowContent(true);
+          setHasShownInitialLoad(true); // Mark that we've shown initial load
+        }
+      }
+    }, [isLoading, books, loadStartRef, hasShownInitialLoad]);
 
     useEffect(() => {
         const updateBooksPerRow = () => {
@@ -105,14 +97,37 @@ export default function Library() {
         window.addEventListener('resize', updateBooksPerRow); // Update books per row on screen resize
         return () => window.removeEventListener("resize", updateBooksPerRow);
     }, []);
-    const chunkedBooks = chunkBooks(books, booksPerRow); // Get the array of arrays of book chunks
+    const chunkedBooks = books ? chunkBooks(books, booksPerRow) : []; // Get the array of arrays of book chunks
 
-    if (loading) { // Show rotating quotes while books load
+    // Show error state
+    if (error) {
+      return (
+        <div className="min-h-[60vh] flex items-center justify-center p-6">
+          <div className="text-center">
+            <p className="text-red-500 dark:text-red-400 mb-4">Failed to load books</p>
+            <button 
+              onClick={() => window.location.reload()} 
+              className="px-4 py-2 bg-gray-200 dark:bg-gray-700 rounded hover:bg-gray-300 dark:hover:bg-gray-600"
+            >
+              Retry
+            </button>
+          </div>
+        </div>
+      );
+    }
+
+    // Show quote loading screen only on initial mount (not when cached)
+    if (!hasShownInitialLoad && (isLoading || !showContent || !books)) {
       return (
         <div className="min-h-[60vh] flex items-center justify-center p-6">
           <RandomQuote />
         </div>
       );
+    }
+
+    // If we've shown initial load but data isn't ready, show nothing (shouldn't happen with cache)
+    if (!books) {
+      return null;
     }
 
     //   if (loading) { // Skeleton loaders
