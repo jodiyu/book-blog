@@ -3,6 +3,7 @@
 ![Tailwind](https://img.shields.io/badge/TailwindCSS-%2306B6D4?style=for-the-badge&logo=tailwindcss&logoColor=white)
 ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-%234169E1?style=for-the-badge&logo=postgresql&logoColor=white)
 ![AWS](https://img.shields.io/badge/AWS-%23FF9900.svg?style=for-the-badge&logo=amazon-aws&logoColor=white)
+![React](https://img.shields.io/badge/React-%2361DAFB.svg?style=for-the-badge&logo=react&logoColor=black)
 
 
 
@@ -11,7 +12,7 @@ Book blog platform built with **Next.js**, **TypeScript**, and **Tailwind CSS**.
 ---
 
 ## Tech Stack
-- **Frontend**: Next.js, TypeScript, TailwindCSS, shadcn/ui
+- **Frontend**: Next.js, React, TypeScript, TailwindCSS, shadcn/ui
 - **Database**: Neon Postgres with Drizzle ORM
 - **Storage**: AWS S3
 - **Hosting**: Deployed on Vercel
