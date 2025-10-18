@@ -1,7 +1,5 @@
 'use client';
 
-import useSWR from 'swr'
-
 import { useEffect, useState } from 'react';
 import { getBooks } from '@/lib/api';
 import BookModal from '@/components/BookModal';
@@ -39,17 +37,10 @@ function chunkBooks<Book>(array: Book[], chunkSize:number): Book[][] {
     return result;
 }
 
-// SWR fetcher function
-const fetcher = () => getBooks();
-
 export default function Library() {
-    // Use SWR for book fetching with client side caching
-    const { data: books, error, isLoading } = useSWR<Book[]>('/api/books', fetcher, {
-        revalidateOnFocus: false,
-        revalidateOnReconnect: true, // Refetch when reconnecting
-        dedupingInterval: 60000, //60 seconds
-    });
-
+    const[books, setBooks] = useState<Book[]>([]);
+    const[loading, setLoading] = useState(true);
+    const[error, setError] = useState<Error | null>(null);
     const[selectedBook, setSelectedBook] = useState<Book | null>(null);
     const[booksPerRow, setBooksPerRow] = useState(6);
     const[showContent, setShowContent] = useState(false);
@@ -57,9 +48,25 @@ export default function Library() {
     const LOADING_MS = 5500;
     const loadStartRef = useState(() => Date.now())[0];
 
+    // Fetch books on mount
+    useEffect(() => {
+      const fetchBooks = async () => {
+        try {
+          const data = await getBooks();
+          setBooks(data);
+        } catch (err) {
+          setError(err as Error);
+        } finally {
+          setLoading(false);
+        }
+      };
+
+      fetchBooks();
+    }, []);
+
     // Handle minimum loading time (only on initial mount)
     useEffect(() => {
-      if (!isLoading && books) {
+      if (!loading && books.length > 0) {
         // If we've already shown the initial load, show content immediately (cached data)
         if (hasShownInitialLoad) {
           setShowContent(true);
@@ -81,7 +88,7 @@ export default function Library() {
           setHasShownInitialLoad(true); // Mark that we've shown initial load
         }
       }
-    }, [isLoading, books, loadStartRef, hasShownInitialLoad]);
+    }, [loading, books, loadStartRef, hasShownInitialLoad]);
 
     useEffect(() => {
         const updateBooksPerRow = () => {
@@ -97,7 +104,7 @@ export default function Library() {
         window.addEventListener('resize', updateBooksPerRow); // Update books per row on screen resize
         return () => window.removeEventListener("resize", updateBooksPerRow);
     }, []);
-    const chunkedBooks = books ? chunkBooks(books, booksPerRow) : []; // Get the array of arrays of book chunks
+    const chunkedBooks = chunkBooks(books, booksPerRow); // Get the array of arrays of book chunks
 
     // Show error state
     if (error) {
@@ -117,16 +124,16 @@ export default function Library() {
     }
 
     // Show quote loading screen only on initial mount (not when cached)
-    if (!hasShownInitialLoad && (isLoading || !showContent || !books)) {
+    if (!hasShownInitialLoad && (loading || !showContent || books.length === 0)) {
       return (
-        <div className="min-h-[60vh] flex items-center justify-center p-6">
+        <div className="min-h-[60vh] flex items-center justify-center p-6 transition-opacity duration-500 ease-out">
           <RandomQuote />
         </div>
       );
     }
 
     // If we've shown initial load but data isn't ready, show nothing (shouldn't happen with cache)
-    if (!books) {
+    if (books.length === 0) {
       return null;
     }
 
@@ -143,7 +150,7 @@ export default function Library() {
     // }
 
     return (
-    <div className="space-y-6 p-6 overflow-x-hidden">
+    <div className="space-y-6 p-6 overflow-x-hidden animate-fade-in-blur">
       {chunkedBooks.map((row, i) => (
         <Marquee
           key={i}

@@ -22,18 +22,10 @@ interface RandomQuoteProps {
 
 export default function RandomQuote({ quotes = defaultQuotes }: RandomQuoteProps) {
     const [index, setIndex] = React.useState<number | null>(null);
-    const [isVisible, setIsVisible] = React.useState(false);
 
     React.useEffect(() => {
         const randomIndex = Math.floor(Math.random() * quotes.length);
         setIndex(randomIndex);
-        
-        // Small delay to trigger fade-in animation
-        const timer = setTimeout(() => {
-            setIsVisible(true);
-        }, 50);
-
-        return () => clearTimeout(timer);
     }, [quotes.length]);
 
     // Don't render anything until we have a random index
@@ -45,7 +37,7 @@ export default function RandomQuote({ quotes = defaultQuotes }: RandomQuoteProps
 
     return (
         <div className="quotes-rotator" role="status" aria-live="polite">
-            <div className={`max-w-2xl mx-auto text-center px-4 py-6 font-serif ${isVisible ? 'animate-fade-in-blur' : 'opacity-0'}`}>
+            <div className="max-w-2xl mx-auto text-center px-4 py-6 font-serif animate-fade-in-blur">
                 <p className="text-xl text-gray-700 dark:text-gray-300 italic leading-relaxed">&ldquo;{current.text}&rdquo;</p>
                 {current.author && <p className="mt-2 text-m text-gray-500 dark:text-coal-400">— {current.author}</p>}
             </div>

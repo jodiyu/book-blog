@@ -1,5 +1,5 @@
 export async function getBooks() {
-    const response = await fetch('/api');
+    const response = await fetch('/api', { cache: 'force-cache' });
     if (!response.ok) {
         console.error('Error fetching books:', response.statusText);
         throw new Error('Failed to fetch books');
