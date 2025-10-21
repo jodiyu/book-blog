@@ -1,7 +1,7 @@
 import { db } from '@/lib/db';
 import { books } from '@/db/schema';
 import { NextResponse } from 'next/server';
-import { isNotNull } from 'drizzle-orm'
+// import { isNotNull } from 'drizzle-orm'
 
 
 // Cache the response for 1 hour, revalidate in background

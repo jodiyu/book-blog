@@ -86,7 +86,6 @@ type Bubble = {
     appearDelay?: number; // ms delay before first draw (only used in first render)
 };
 
-const EMOTIONS = Object.keys(EMOTION_COLORS);
 
 // Function to get emotion keys based on genre
 function getEmotionsForGenre(genre: string): string[] {
