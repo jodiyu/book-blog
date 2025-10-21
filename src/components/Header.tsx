@@ -4,7 +4,7 @@ import { ModeToggle } from "@/components/ui/mode-toggle";
 
 export function Header() {
     return (
-            <header className="w-full flex justify-center items-center py-4 border-b">
+            <header className="w-full flex justify-center items-center py-4 border-b font-serif">
                 <nav className="flex gap-6">
                     <Link href="/">
                         <Button variant="ghost">Reviews</Button>

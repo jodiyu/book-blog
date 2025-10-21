@@ -84,6 +84,7 @@ export default {
 		fontFamily: {
 			times: ['"Times New Roman"', "serif"],
 			georgia: ['"georgia"', "serif"],
+			garamound: ['"garamound"', "serif"],
 		},
     },
 },

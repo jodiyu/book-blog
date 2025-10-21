@@ -44,7 +44,7 @@ export default function Library() {
     const[selectedBook, setSelectedBook] = useState<Book | null>(null);
     const[booksPerRow, setBooksPerRow] = useState(6);
     const[showContent, setShowContent] = useState(false);
-    const LOADING_MS = 4000;
+    const LOADING_MS = 4500;
     const loadStartRef = useState(() => Date.now())[0];
 
     // Handle minimum loading time (only on first load ever)
@@ -156,7 +156,7 @@ export default function Library() {
                 />
               <div className="mt-2 text-center">
                 <h3 className="text-sm font-medium break-normal max-w-[200px] mx-auto">{book.title}</h3>
-                <p className="text-xs text-gray-600 dark:text-gray-300 truncate">{book.author}</p>
+                <p className="text-xs text-gray-600 dark:text-gray-300 truncate font-serif">{book.author}</p>
               </div>
             </div>
           ))}
