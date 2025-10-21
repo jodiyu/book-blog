@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { getBooks } from '@/lib/api';
+import { useBooks } from '@/contexts/BooksContext';
 import BookModal from '@/components/BookModal';
 import Marquee from '@/components/ui/marquee';
 import CaseStudyCard from '@/components/ui/case-study-card';
@@ -38,57 +38,45 @@ function chunkBooks<Book>(array: Book[], chunkSize:number): Book[][] {
 }
 
 export default function Library() {
-    const[books, setBooks] = useState<Book[]>([]);
-    const[loading, setLoading] = useState(true);
-    const[error, setError] = useState<Error | null>(null);
+    // Get books from context (cached globally)
+    const { books, loading, error, hasLoadedOnce, markAsLoaded } = useBooks();
+    
     const[selectedBook, setSelectedBook] = useState<Book | null>(null);
     const[booksPerRow, setBooksPerRow] = useState(6);
     const[showContent, setShowContent] = useState(false);
-    const[hasShownInitialLoad, setHasShownInitialLoad] = useState(false); // Track if we've done initial load
-    const LOADING_MS = 5500;
+    const LOADING_MS = 4000;
     const loadStartRef = useState(() => Date.now())[0];
 
-    // Fetch books on mount
+    // Handle minimum loading time (only on first load ever)
     useEffect(() => {
-      const fetchBooks = async () => {
-        try {
-          const data = await getBooks();
-          setBooks(data);
-        } catch (err) {
-          setError(err as Error);
-        } finally {
-          setLoading(false);
-        }
-      };
-
-      fetchBooks();
-    }, []);
-
-    // Handle minimum loading time (only on initial mount)
-    useEffect(() => {
+      console.log("Starting useEffect...", { loading, booksLength: books.length, hasLoadedOnce })
       if (!loading && books.length > 0) {
-        // If we've already shown the initial load, show content immediately (cached data)
-        if (hasShownInitialLoad) {
+        // If data has already been loaded in this session, show immediately
+        if (hasLoadedOnce) {
+          console.log("Data already shown before in this session. No quote shown")
           setShowContent(true);
           return;
         }
-
-        // First time loading - enforce minimum loading time
+        
+        // First time loading this session - enforce minimum loading time
         const elapsed = Date.now() - loadStartRef;
+        console.log("First load - Elapsed:", elapsed, "ms")
         
         if (elapsed < LOADING_MS) {
           const remaining = LOADING_MS - elapsed;
+          console.log("Waiting remaining:", remaining, "ms")
           const timer = setTimeout(() => {
             setShowContent(true);
-            setHasShownInitialLoad(true); // Mark that we've shown initial load
+            markAsLoaded(); // Mark that we've shown the quote
           }, remaining);
           return () => clearTimeout(timer);
         } else {
+          console.log("Data took long enough, showing immediately")
           setShowContent(true);
-          setHasShownInitialLoad(true); // Mark that we've shown initial load
+          markAsLoaded(); // Mark that we've shown the quote
         }
       }
-    }, [loading, books, loadStartRef, hasShownInitialLoad]);
+    }, [loading, books, loadStartRef, hasLoadedOnce, markAsLoaded]);
 
     useEffect(() => {
         const updateBooksPerRow = () => {
@@ -123,8 +111,8 @@ export default function Library() {
       );
     }
 
-    // Show quote loading screen only on initial mount (not when cached)
-    if (!hasShownInitialLoad && (loading || !showContent || books.length === 0)) {
+    // Show quote loading screen only on first load ever (not when cached or returning from other pages)
+    if (!hasLoadedOnce && (loading || !showContent || books.length === 0)) {
       return (
         <div className="min-h-[60vh] flex items-center justify-center p-6 transition-opacity duration-500 ease-out">
           <RandomQuote />
@@ -132,7 +120,7 @@ export default function Library() {
       );
     }
 
-    // If we've shown initial load but data isn't ready, show nothing (shouldn't happen with cache)
+    // If we've loaded data before but it's not ready, show nothing (shouldn't happen with cache)
     if (books.length === 0) {
       return null;
     }

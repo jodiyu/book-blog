@@ -2,11 +2,8 @@ import { db } from '@/lib/db';
 import { books } from '@/db/schema';
 import { NextResponse } from 'next/server';
 
-// get all the books
-// export async function GET() {
-//   const allBooks = await db.select().from(books);
-//   return NextResponse.json(allBooks);
-// }
+// Cache the response for 1 hour, revalidate in background
+export const revalidate = 3600; // 1 hour in seconds
 
 export async function GET() {
   try {
