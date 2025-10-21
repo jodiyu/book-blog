@@ -1,6 +1,7 @@
 import { db } from '@/lib/db';
 import { books } from '@/db/schema';
 import { NextResponse } from 'next/server';
+import { isNotNull } from 'drizzle-orm'
 
 
 // Cache the response for 1 hour, revalidate in background
@@ -16,8 +17,10 @@ export async function GET() {
         cover: books.cover,
         review: books.review,
         quote: books.quote,
+        
       })
       .from(books)
+      //.where(isNotNull(books.review)) uncomment this once i figure out stuff
       .orderBy(books.id);
       return NextResponse.json(result);
   } catch (err) {

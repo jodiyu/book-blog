@@ -8,7 +8,6 @@ export const revalidate = 3600;
 
 export async function GET() {
   try {
-    // For now, let's return all books - you can modify with a filter when you add isFavorite field
     const favoriteBooks = await db
       .select({
         id: books.id,
@@ -17,6 +16,7 @@ export async function GET() {
         cover: books.cover,
         review: books.review,
         quote: books.quote,
+        genre: books.genre,
       })
       .from(books)
       .where(eq(books.isFavorite, true)) // Filter by if book is favorite

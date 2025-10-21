@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
+import Background from '@/components/Background';
 
 type FavoriteBook = {
   id: number;
@@ -10,15 +11,17 @@ type FavoriteBook = {
   author: string;
   cover: string;
   category?: string;
+  genre: string;
 };
 
 export default function Favorites() {
   const [favorites, setFavorites] = useState<FavoriteBook[]>([]);
   const [loading, setLoading] = useState(true);
-  const [hoveredId, setHoveredId] = useState<number | null>(null);
+  const [activeIndex, setActiveIndex] = useState(0); // Track current active book index
+  const activeGenre = favorites[activeIndex]?.genre || 'default';
 
   useEffect(() => {
-    // Fetch favorite books from your backend
+    // Fetch favorite books
     const fetchFavorites = async () => {
       try {
         const response = await fetch('/api/favorites');
@@ -34,7 +37,18 @@ export default function Favorites() {
     fetchFavorites();
   }, []);
 
-  if (loading) { // Fix this here
+  // Auto rotate through books
+  useEffect(() => {
+    if (favorites.length === 0) return;
+
+    const interval = setInterval(() => {
+      setActiveIndex((prevIndex) => (prevIndex + 1) % favorites.length);
+    }, 6000); // 4 seconds per book
+
+    return () => clearInterval(interval); // Cleanup on unmount
+  }, [favorites.length]);
+
+  if (loading) {
     return (
       <main className="flex min-h-screen items-center justify-center">
         <p className="text-lg text-gray-500">Loading favorites...</p>
@@ -43,33 +57,33 @@ export default function Favorites() {
   }
 
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center p-6">
-      
-      <div className="flex items-center justify-center gap-2 max-w-7xl">
-        {favorites.map((book, index) => (
-          <BookSpine
-            key={book.id}
-            book={book}
-            index={index}
-            isHovered={hoveredId === book.id}
-            onHover={() => setHoveredId(book.id)}
-            onLeave={() => setHoveredId(null)}
-          />
-        ))}
-      </div>
-    </main>
+    <>
+        <Background genre={activeGenre}/>
+        {console.log("[Page] Active genre:", activeGenre)}
+
+        <main className="flex min-h-screen flex-col items-center justify-center p-6">
+        <div className="flex items-center justify-center gap-2 max-w-7xl">
+            {favorites.map((book, index) => (
+            <BookSpine
+                key={book.id}
+                book={book}
+                index={index}
+                isActive={index === activeIndex}
+            />
+            ))}
+        </div>
+        </main>
+    </>
   );
 }
 
 type BookSpineProps = {
   book: FavoriteBook;
   index: number;
-  isHovered: boolean;
-  onHover: () => void;
-  onLeave: () => void;
+  isActive: boolean;
 };
 
-function BookSpine({ book, index, isHovered, onHover, onLeave }: BookSpineProps) {
+function BookSpine({ book, index, isActive }: BookSpineProps) {
   // Generate color based on category or use a palette
   const colors = [
     '#5ba6ed', // blue
@@ -89,15 +103,13 @@ function BookSpine({ book, index, isHovered, onHover, onLeave }: BookSpineProps)
       className="relative h-96 cursor-pointer overflow-hidden"
       initial={{ width: '40px' }}
       animate={{ 
-        width: isHovered ? '280px' : '40px',
-        zIndex: isHovered ? 10 : 1
+        width: isActive ? '280px' : '40px',
+        zIndex: isActive ? 10 : 1
       }}
       transition={{ 
         duration: 0.4, 
         ease: [0.4, 0, 0.2, 1] // cubic-bezier for smooth expansion
       }}
-      onMouseEnter={onHover}
-      onMouseLeave={onLeave}
       style={{
         backgroundColor: spineColor,
       }}
@@ -105,7 +117,7 @@ function BookSpine({ book, index, isHovered, onHover, onLeave }: BookSpineProps)
       {/* Collapsed State: Thin spine with vertical text */}
       <motion.div
         className="absolute inset-0 flex items-center justify-center"
-        animate={{ opacity: isHovered ? 0 : 1 }}
+        animate={{ opacity: isActive ? 0 : 1 }}
         transition={{ duration: 0.2 }}
       >
         <p 
@@ -122,8 +134,8 @@ function BookSpine({ book, index, isHovered, onHover, onLeave }: BookSpineProps)
       {/* Expanded State: Full book cover */}
       <motion.div
         className="absolute inset-0"
-        animate={{ opacity: isHovered ? 1 : 0 }}
-        transition={{ duration: 0.3, delay: isHovered ? 0.1 : 0 }}
+        animate={{ opacity: isActive ? 1 : 0 }}
+        transition={{ duration: 0.3, delay: isActive ? 0.1 : 0 }}
       >
         <Image
           src={book.cover}
