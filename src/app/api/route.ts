@@ -2,6 +2,7 @@ import { db } from '@/lib/db';
 import { books } from '@/db/schema';
 import { NextResponse } from 'next/server';
 
+
 // Cache the response for 1 hour, revalidate in background
 export const revalidate = 3600; // 1 hour in seconds
 
@@ -25,6 +26,8 @@ export async function GET() {
 
   }
 }
+
+
 
 
 // Contact: Deprecated

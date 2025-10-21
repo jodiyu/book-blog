@@ -1,4 +1,4 @@
-import { pgTable, serial, text, timestamp } from 'drizzle-orm/pg-core';
+import { pgTable, serial, text, timestamp, boolean } from 'drizzle-orm/pg-core';
 // import { relations } from 'drizzle-orm';
 
 // Mapping out the database schema: data and cols
@@ -11,6 +11,7 @@ export const books = pgTable('books', {
   quote: text('quote'),
   review: text('review'),
   cover: text('cover').notNull(), // URL to image loaded from AWS
+  isFavorite: boolean('is_favorite').default(false),
   });
 
 // Essays page
