@@ -17,8 +17,9 @@ type FavoriteBook = {
 export default function Favorites() {
   const [favorites, setFavorites] = useState<FavoriteBook[]>([]);
   const [loading, setLoading] = useState(true);
-  const [activeIndex, setActiveIndex] = useState(0); // Track current active book index
-  const activeGenre = favorites[activeIndex]?.genre || 'default';
+  const [activeIndex, setActiveIndex] = useState<number | null>(null); // Track current active book index
+  const activeGenre = activeIndex !== null ? favorites[activeIndex]?.genre || 'default' : 'default';
+  const activeBookId = activeIndex !== null ? favorites[activeIndex]?.id : null;
 
   useEffect(() => {
     // Fetch favorite books
@@ -37,16 +38,17 @@ export default function Favorites() {
     fetchFavorites();
   }, []);
 
+
   // Auto rotate through books
-  useEffect(() => {
-    if (favorites.length === 0) return;
+  // useEffect(() => {
+  //   if (favorites.length === 0) return;
 
-    const interval = setInterval(() => {
-      setActiveIndex((prevIndex) => (prevIndex + 1) % favorites.length);
-    }, 6000); // 4 seconds per book
+  //   const interval = setInterval(() => {
+  //     setActiveIndex((prevIndex) => (prevIndex + 1) % favorites.length);
+  //   }, 6000); // 4 seconds per book
 
-    return () => clearInterval(interval); // Cleanup on unmount
-  }, [favorites.length]);
+  //   return () => clearInterval(interval); // Cleanup on unmount
+  // }, [favorites.length]);
 
   if (loading) {
     return (
@@ -59,16 +61,20 @@ export default function Favorites() {
   return (
     <>
         <Background genre={activeGenre}/>
-        {console.log("[Page] Active genre:", activeGenre)}
+        {console.log("[Page] Active genre:", activeGenre, "Book ID", activeBookId)}
 
         <main className="flex min-h-screen flex-col items-center justify-center p-6">
-        <div className="flex items-center justify-center gap-2 max-w-7xl">
+        <div 
+          className="flex items-center justify-center gap-2 max-w-7xl"
+          onMouseLeave={() => setActiveIndex(null)}
+        >
             {favorites.map((book, index) => (
             <BookSpine
                 key={book.id}
                 book={book}
                 index={index}
                 isActive={index === activeIndex}
+                onHover={() => setActiveIndex(index)}
             />
             ))}
         </div>
@@ -81,19 +87,17 @@ type BookSpineProps = {
   book: FavoriteBook;
   index: number;
   isActive: boolean;
+  onHover: () => void; 
 };
 
-function BookSpine({ book, index, isActive }: BookSpineProps) {
+function BookSpine({ book, index, isActive, onHover }: BookSpineProps) {
   // Generate color based on category or use a palette
   const colors = [
-    '#5ba6ed', // blue
-    '#ca932a', // mustard yellow
-    '#5fac4e', // green
-    '#b33139', // red
-    '#5a215a', // plum
-    '#175f76', // dark blue
-    '#e07a5f', // coral
-    '#81b29a', // sage
+    '#6B4423', // dark brown
+    // '#9B7653', // tan brown
+    // '#8B7355', // dusty brown
+    // '#704214', // sepia
+    // '#C19A6B', // camel
   ];
   
   const spineColor = colors[index % colors.length];
@@ -113,6 +117,7 @@ function BookSpine({ book, index, isActive }: BookSpineProps) {
       style={{
         backgroundColor: spineColor,
       }}
+      onMouseEnter={onHover}
     >
       {/* Collapsed State: Thin spine with vertical text */}
       <motion.div

@@ -1,6 +1,6 @@
 import { useRef, useEffect, useState } from "react";
 
-const EMOTION_COLORS: Record<string, string> = {
+const EMOTION_COLORS: Record<string, string> = { // Thanks Frank
     admiration: "rgba(255,215,0,0.4)",
     amusement: "rgba(255,105,180,0.4)",
     anger: "rgba(255,0,0,0.4)",
@@ -29,42 +29,53 @@ const EMOTION_COLORS: Record<string, string> = {
     surprise: "rgba(255,165,0,0.4)",
 };
 
-const FICTION_COLORS: Record<string, string> = {
+const FICTION_COLORS: Record<string, string> = { // Looking for alaska, ill give you the sun, love story, the girl with the dragon tattoo, everything i never told you
     admiration: "rgba(255,215,0,0.4)",
-    amusement: "rgba(255,105,180,0.4)",
-    anger: "rgba(255,0,0,0.4)",
     annoyance: "rgba(255,160,122,0.4)",
+    love: "rgba(255,20,147,0.4)",
+    optimism: "rgba(0,255,127,0.4)",
     approval: "rgba(50,205,50,0.4)",
 };
 
-const NONFICTION_COLORS: Record<string, string>= {
+const NONFICTION_COLORS: Record<string, string>= { // When breath becomes air, bad blood, educated, small fry
     caring: "rgba(255,182,193,0.4)",
+    joy: "rgba(255,255,0,0.4)",
+    desire: "rgba(255,69,0,0.4)",
+    disappointment: "rgba(139,0,0,0.4)",
+    excitement: "rgba(255,215,0,0.4)",
+    admiration: "rgba(255,215,0,0.4)",
+    pride: "rgba(255,69,0,0.4)",
+};
+
+const CLASSIC_COLORS: Record<string, string> = { // frankenstein, pride and prejudice
     curiosity: "rgba(0,206,209,0.4)",
     desire: "rgba(255,69,0,0.4)",
     disappointment: "rgba(139,0,0,0.4)",
-};
-
-const CLASSIC_COLORS: Record<string, string> = {
-    disappointment: "rgba(139,0,0,0.4)",
-    disapproval: "rgba(139,69,19,0.4)",
-    disgust: "rgba(85,107,47,0.4)",
-    embarrassment: "rgba(255,99,71,0.4)",
-    excitement: "rgba(255,215,0,0.4)",
-};
-
-const SCIENCE_COLORS: Record<string, string> = {
-    relief: "rgba(152,251,152,0.4)",
+    realization: "rgba(135,206,235,0.4)",
+    annoyance: "rgba(255,160,122,0.4)",
+    grief: "rgba(47,79,79,0.4)",
     remorse: "rgba(139,0,0,0.4)",
     sadness: "rgba(0,0,255,0.4)",
-    surprise: "rgba(255,165,0,0.4)",
+    pride: "rgba(255,69,0,0.4)",
+    love: "rgba(255,20,147,0.4)",
 };
 
-const FANTASY_COLORS: Record<string, string> = {
-    love: "rgba(255,20,147,0.4)",
-    nervousness: "rgba(70,130,180,0.4)",
-    optimism: "rgba(0,255,127,0.4)",
+const SCIENCE_COLORS: Record<string, string> = { //dune 
+    remorse: "rgba(139,0,0,0.4)",
     pride: "rgba(255,69,0,0.4)",
+    desire: "rgba(255,69,0,0.4)",
+    caring: "rgba(255,182,193,0.4)",
+    disapproval: "rgba(139,69,19,0.4)",
+
+};
+
+const FANTASY_COLORS: Record<string, string> = { // the way of kings
+    anger: "rgba(255,0,0,0.4)",
+    surprise: "rgba(255,165,0,0.4)",
     realization: "rgba(135,206,235,0.4)",
+    grief: "rgba(47,79,79,0.4)",
+    pride: "rgba(255,69,0,0.4)",
+    curiosity: "rgba(0,206,209,0.4)",
 };
 
 const GENRE_TO_COLORS: Record<string,Record<string,string>>= {
@@ -73,7 +84,7 @@ const GENRE_TO_COLORS: Record<string,Record<string,string>>= {
     classic: CLASSIC_COLORS,
     science: SCIENCE_COLORS,
     fantasy: FANTASY_COLORS,
-    default: EMOTION_COLORS
+    default: {} // Default no colors
 };
 
 type Bubble = {
@@ -155,33 +166,29 @@ export default function Background({genre}: BackgroundProps) {
     useEffect(() => {
         // Skip on first render
         console.log("Active genre:", genre)
-        if (prevGenreRef.current !== genre && prevGenreRef.current !== '') {
-            console.log(`Genre changed from ${prevGenreRef.current} to ${genre}`);
+        console.log(`Genre changed from ${prevGenreRef.current} to ${genre}`);
             
-            // Cancel any existing animation frame
-            if (animationFrameRef.current) {
-                cancelAnimationFrame(animationFrameRef.current);
-                animationFrameRef.current = null;
-            }
-            
-            // Fade out current bubbles
-            bubblesRef.current.forEach(bubble => {
-                bubble.targetAlpha = 0;
-            });
-            
-            // After a delay, generate new bubbles with new genre
-            const timer = setTimeout(() => {
-                const genreEmotions = getEmotionsForGenre(genre);
-                setEmotions(genreEmotions);
-                bubblesRef.current = generateRandomBubbles(4, genreEmotions);
-                isFirstRenderRef.current = true;
-                startTimeRef.current = null;
-            }, 1000); // Wait for fade out
-            
-            return () => clearTimeout(timer);
+        // Cancel any existing animation frame
+        if (animationFrameRef.current) {
+            cancelAnimationFrame(animationFrameRef.current);
+            animationFrameRef.current = null;
         }
-    
-        prevGenreRef.current = genre;
+            
+        // Fade out current bubbles
+        bubblesRef.current.forEach(bubble => {
+            bubble.targetAlpha = 0;
+        });
+        
+        // After a delay, generate new bubbles with new genre
+        const timer = setTimeout(() => {
+            const genreEmotions = getEmotionsForGenre(genre);
+            setEmotions(genreEmotions);
+            bubblesRef.current = generateRandomBubbles(4, genreEmotions);
+            isFirstRenderRef.current = true;
+            startTimeRef.current = null;
+        }, 1000); // Wait for fade out
+        
+        return () => clearTimeout(timer);
     }, [genre]);
 
     useEffect(() => {
