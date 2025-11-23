@@ -5,7 +5,7 @@
 ![AWS](https://img.shields.io/badge/AWS-%23FF9900.svg?style=for-the-badge&logo=amazon-aws&logoColor=white)
 ![React](https://img.shields.io/badge/React-%2361DAFB.svg?style=for-the-badge&logo=react&logoColor=black)
 
-
+Just for fun!
 
 Book blog platform built with **Next.js**, **TypeScript**, and **Tailwind CSS**.
 
