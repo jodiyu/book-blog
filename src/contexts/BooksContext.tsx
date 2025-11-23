@@ -22,7 +22,7 @@ type BooksContextType = {
 };
 
 const BooksContext = createContext<BooksContextType | undefined>(undefined);
-
+// Client side cache
 const CACHE_KEY = 'books_cache';
 const CACHE_DURATION = 3600000; // 1 hour in milliseconds
 

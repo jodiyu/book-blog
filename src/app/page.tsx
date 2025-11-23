@@ -49,18 +49,10 @@ export default function Library() {
 
     // Handle minimum loading time (only on first load ever)
     useEffect(() => {
-      console.log("Starting useEffect...", { loading, booksLength: books.length, hasLoadedOnce })
+      console.log("Starting useEffect...", { loading, booksLength: books.length })
       if (!loading && books.length > 0) {
-        // If data has already been loaded in this session, show immediately
-        if (hasLoadedOnce) {
-          console.log("Data already shown before in this session. No quote shown")
-          setShowContent(true);
-          return;
-        }
-        
-        // First time loading this session - enforce minimum loading time
         const elapsed = Date.now() - loadStartRef;
-        console.log("First load - Elapsed:", elapsed, "ms")
+        console.log("Elapsed time on load:", elapsed, "ms")
         
         if (elapsed < LOADING_MS) {
           const remaining = LOADING_MS - elapsed;
@@ -111,7 +103,7 @@ export default function Library() {
       );
     }
 
-    // Show quote loading screen only on first load ever (not when cached or returning from other pages)
+    // Show quote loading screen
     if (!hasLoadedOnce && (loading || !showContent || books.length === 0)) {
       return (
         <div className="min-h-[60vh] flex items-center justify-center p-6 transition-opacity duration-500 ease-out">
