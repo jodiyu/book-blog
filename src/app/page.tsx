@@ -39,7 +39,7 @@ function chunkBooks<Book>(array: Book[], chunkSize:number): Book[][] {
 
 export default function Library() {
     // Get books from context (cached globally)
-    const { books, loading, error, hasLoadedOnce, markAsLoaded } = useBooks();
+    const { books, loading, error } = useBooks();
     
     const[selectedBook, setSelectedBook] = useState<Book | null>(null);
     const[booksPerRow, setBooksPerRow] = useState(6);
@@ -47,7 +47,7 @@ export default function Library() {
     const LOADING_MS = 4500;
     const loadStartRef = useState(() => Date.now())[0];
 
-    // Handle minimum loading time (only on first load ever)
+    // Handle minimum loading time 
     useEffect(() => {
       console.log("Starting useEffect...", { loading, booksLength: books.length })
       if (!loading && books.length > 0) {
@@ -59,16 +59,14 @@ export default function Library() {
           console.log("Waiting remaining:", remaining, "ms")
           const timer = setTimeout(() => {
             setShowContent(true);
-            markAsLoaded(); // Mark that we've shown the quote
           }, remaining);
           return () => clearTimeout(timer);
         } else {
           console.log("Data took long enough, showing immediately")
           setShowContent(true);
-          markAsLoaded(); // Mark that we've shown the quote
         }
       }
-    }, [loading, books, loadStartRef, hasLoadedOnce, markAsLoaded]);
+    }, [loading, books, loadStartRef ]);
 
     useEffect(() => {
         const updateBooksPerRow = () => {
@@ -104,7 +102,7 @@ export default function Library() {
     }
 
     // Show quote loading screen
-    if (!hasLoadedOnce && (loading || !showContent || books.length === 0)) {
+    if ( loading || !showContent || books.length === 0) {
       return (
         <div className="min-h-[60vh] flex items-center justify-center p-6 transition-opacity duration-500 ease-out">
           <RandomQuote />
