@@ -26,10 +26,11 @@ export default function BookModal({ book, onClose }: Props) {
           {book.quote && <blockquote className="italic text-zinc-00 dark:text-zinc-400">“{book.quote}”</blockquote>}
           {book.review && (
               <p
-                className="whitespace-pre-line indent-8 text-gray-200"
+                className="whitespace-pre-line text-gray-200"
                 dangerouslySetInnerHTML={{
                   __html: book.review
-                    .replace(/~(.*?)~/g, "<em>$1</em>"),
+                    .replace(/~(.*?)~/g, "<em>$1</em>")
+                    .replace(/\|(.*?)\|/g, "$1<br><br>"), /* Hopefully paragraph breaks */
                 }}
               />
             )}       

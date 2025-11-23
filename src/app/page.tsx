@@ -40,6 +40,8 @@ function chunkBooks<Book>(array: Book[], chunkSize:number): Book[][] {
 export default function Library() {
     // Get books from context (cached globally)
     const { books, loading, error } = useBooks();
+    // Only use books with reviews
+    const reviews = books.filter(book => book.review);
     
     const[selectedBook, setSelectedBook] = useState<Book | null>(null);
     const[booksPerRow, setBooksPerRow] = useState(6);
@@ -49,8 +51,8 @@ export default function Library() {
 
     // Handle minimum loading time 
     useEffect(() => {
-      console.log("Starting useEffect...", { loading, booksLength: books.length })
-      if (!loading && books.length > 0) {
+      console.log("Starting useEffect...", { loading, booksLength: reviews.length })
+      if (!loading && reviews.length > 0) {
         const elapsed = Date.now() - loadStartRef;
         console.log("Elapsed time on load:", elapsed, "ms")
         
@@ -66,7 +68,7 @@ export default function Library() {
           setShowContent(true);
         }
       }
-    }, [loading, books, loadStartRef ]);
+    }, [loading, reviews, loadStartRef ]);
 
     useEffect(() => {
         const updateBooksPerRow = () => {
@@ -82,7 +84,7 @@ export default function Library() {
         window.addEventListener('resize', updateBooksPerRow); // Update books per row on screen resize
         return () => window.removeEventListener("resize", updateBooksPerRow);
     }, []);
-    const chunkedBooks = chunkBooks(books, booksPerRow); // Get the array of arrays of book chunks
+    const chunkedBooks = chunkBooks(reviews, booksPerRow); // Get the array of arrays of book chunks
 
     // Show error state
     if (error) {
@@ -102,7 +104,7 @@ export default function Library() {
     }
 
     // Show quote loading screen
-    if ( loading || !showContent || books.length === 0) {
+    if ( loading || !showContent || reviews.length === 0) {
       return (
         <div className="min-h-[60vh] flex items-center justify-center p-6 transition-opacity duration-500 ease-out">
           <RandomQuote />
@@ -111,7 +113,7 @@ export default function Library() {
     }
 
     // If we've loaded data before but it's not ready, show nothing (shouldn't happen with cache)
-    if (books.length === 0) {
+    if (reviews.length === 0) {
       return null;
     }
 

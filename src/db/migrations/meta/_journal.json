@@ -43,6 +43,13 @@
       "when": 1761053883237,
       "tag": "0005_remarkable_betty_ross",
       "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1763877190370,
+      "tag": "0006_giant_pestilence",
+      "breakpoints": true
     }
   ]
 }

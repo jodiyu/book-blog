@@ -4,51 +4,25 @@ import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
 import Background from '@/components/Background';
+import { useBooks } from '@/contexts/BooksContext';
 
 type FavoriteBook = {
   id: number;
   title: string;
   author: string;
   cover: string;
-  category?: string;
   genre: string;
+  isFavorite: boolean;
 };
 
 export default function Favorites() {
-  const [favorites, setFavorites] = useState<FavoriteBook[]>([]);
-  const [loading, setLoading] = useState(true);
+  const { books, loading, error} = useBooks() // Use book context
+  const favorites = books.filter(book => book.isFavorite);
+
   const [activeIndex, setActiveIndex] = useState<number | null>(null); // Track current active book index
   const activeGenre = activeIndex !== null ? favorites[activeIndex]?.genre || 'default' : 'default';
   const activeBookId = activeIndex !== null ? favorites[activeIndex]?.id : null;
 
-  useEffect(() => {
-    // Fetch favorite books
-    const fetchFavorites = async () => {
-      try {
-        const response = await fetch('/api/favorites');
-        const data = await response.json();
-        setFavorites(data);
-      } catch (error) {
-        console.error('Failed to fetch favorites:', error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchFavorites();
-  }, []);
-
-
-  // Auto rotate through books
-  // useEffect(() => {
-  //   if (favorites.length === 0) return;
-
-  //   const interval = setInterval(() => {
-  //     setActiveIndex((prevIndex) => (prevIndex + 1) % favorites.length);
-  //   }, 6000); // 4 seconds per book
-
-  //   return () => clearInterval(interval); // Cleanup on unmount
-  // }, [favorites.length]);
 
   if (loading) {
   return (
@@ -56,7 +30,24 @@ export default function Favorites() {
       <div className="w-12 h-12 border-4 border-gray-700 border-t-gray-400 rounded-full animate-spin" />
     </main>
   );
-}
+  }
+
+  if (error) {
+    return (
+      <main className="flex min-h-screen items-center justify-center">
+        <p className="text-lg text-red-500">Error loading favorites</p>
+      </main>
+    );
+  }
+
+  if (favorites.length === 0) {
+    return (
+      <main className="flex min-h-screen items-center justify-center">
+        <p className="text-lg text-gray-500 font-serif">No favorites yet. Mark some books as favorites!</p>
+      </main>
+    );
+  }
+
 
   return (
     <>

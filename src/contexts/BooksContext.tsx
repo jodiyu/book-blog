@@ -10,6 +10,8 @@ type Book = {
     quote?: string;
     review?: string;
     cover: string;
+    isFavorite: boolean;
+    genre: string;
 };
 
 type BooksContextType = {
@@ -52,6 +54,7 @@ export function BooksProvider({ children }: { children: ReactNode }) {
                     if (age < CACHE_DURATION) {
                         console.log('[BooksContext] Using cached data, age:', (age / 1000).toFixed(1), 'seconds');
                         setBooks(parsed.books);
+                        console.log("Here is books", parsed.books)
                         setLoading(false);
                         // DON'T set hasLoadedOnce here! Let the component decide when to set it
                         // This way quote still shows on first page load even with cached data
@@ -75,6 +78,7 @@ export function BooksProvider({ children }: { children: ReactNode }) {
             console.log('[BooksContext] Books count:', data.length);
 
             setBooks(data);
+            console.log("Here is books", books)
             setHasLoadedOnce(true); // Mark as loaded when fetched from API
 
             // Save to cache

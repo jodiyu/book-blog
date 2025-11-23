@@ -18,11 +18,13 @@ export async function GET() {
         cover: books.cover,
         review: books.review,
         quote: books.quote,
-        
+        genre: books.genre,
+        isFavorite: books.isFavorite,
       })
       .from(books)
       //.where(isNotNull(books.review)) uncomment this once i figure out stuff
       .orderBy(books.id);
+      console.log("Here is api call result:", result)
       return NextResponse.json(result);
   } catch (err) {
     console.error("Error fetching books: ", err);

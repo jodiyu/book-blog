@@ -11,8 +11,8 @@ export const books = pgTable('books', {
   quote: text('quote'),
   review: text('review'),
   cover: text('cover').notNull(), // URL to image loaded from AWS
-  isFavorite: boolean('is_favorite').default(false), // Favorites page
-  genre: text('genre'),
+  isFavorite: boolean('is_favorite').default(false).notNull(), // Favorites page
+  genre: text('genre').notNull(),
   });
 
 // Essays page
