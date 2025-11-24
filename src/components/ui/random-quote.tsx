@@ -10,7 +10,7 @@ const defaultQuotes: Quote[] = [
   { text: "Fatigue is here, in my body, in my legs and eyes. That is what you get in the end. Faith is only a word, embroidered. ", author: "The Handmaid's Tale" },
   { text: "They won't let me .. I can't be .. good.", author: "Notes from Underground" },
   { text: "...as if we heard the same bird singing and the song entered each of us, changed.", author: "Reading with Patrick" },
-  { text: "That’s the problem. Bolivar was talking about the pain, not about the living or dying. How do we get out of the labyrinth of suffering?", author: "Looking for Alaska" },
+  { text: "How do we get out of the labyrinth of suffering?", author: "Looking for Alaska" },
   { text: "I love memories. They are our ballads, our personal foundation myths. But I must acknowledge that memory can be cruel if left unchallenged.", author: "Tress of the Emerald Sea" },
   { text: "The general prejudice against Mr. Darcy is so violent, that it would be the death of half the good people in Meryton, to attempt to place him in amiable light.", author: "Pride and Prejudice" },
   { text: "I should have wept to die; now it is my only consolation. Polluted by crimes, and torn by the bitterest remorse, where can I find rest but in death?", author: "Frankenstein" },

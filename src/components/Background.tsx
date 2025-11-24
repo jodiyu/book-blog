@@ -162,34 +162,34 @@ export default function Background({genre}: BackgroundProps) {
 
     const prevGenreRef = useRef(genre);
 
-    // Genre change effect
-    useEffect(() => {
-        // Skip on first render
-        console.log("Active genre:", genre)
-        console.log(`Genre changed from ${prevGenreRef.current} to ${genre}`);
+    // // Genre change effect
+    // useEffect(() => {
+    //     // Skip on first render
+    //     console.log("Active genre:", genre)
+    //     console.log(`Genre changed from ${prevGenreRef.current} to ${genre}`);
             
-        // Cancel any existing animation frame
-        if (animationFrameRef.current) {
-            cancelAnimationFrame(animationFrameRef.current);
-            animationFrameRef.current = null;
-        }
+    //     // Cancel any existing animation frame
+    //     if (animationFrameRef.current) {
+    //         cancelAnimationFrame(animationFrameRef.current);
+    //         animationFrameRef.current = null;
+    //     }
             
-        // Fade out current bubbles
-        bubblesRef.current.forEach(bubble => {
-            bubble.targetAlpha = 0;
-        });
+    //     // Fade out current bubbles
+    //     bubblesRef.current.forEach(bubble => {
+    //         bubble.targetAlpha = 0;
+    //     });
         
-        // After a delay, generate new bubbles with new genre
-        const timer = setTimeout(() => {
-            const genreEmotions = getEmotionsForGenre(genre);
-            setEmotions(genreEmotions);
-            bubblesRef.current = generateRandomBubbles(4, genreEmotions);
-            isFirstRenderRef.current = true;
-            startTimeRef.current = null;
-        }, 1000); // Wait for fade out
+    //     // After a delay, generate new bubbles with new genre
+    //     const timer = setTimeout(() => {
+    //         const genreEmotions = getEmotionsForGenre(genre);
+    //         setEmotions(genreEmotions);
+    //         bubblesRef.current = generateRandomBubbles(4, genreEmotions);
+    //         isFirstRenderRef.current = true;
+    //         startTimeRef.current = null;
+    //     }, 1000); // Wait for fade out
         
-        return () => clearTimeout(timer);
-    }, [genre]);
+    //     return () => clearTimeout(timer);
+    // }, [bookId]);
 
     useEffect(() => {
         if (!dimensions.width || !dimensions.height || !emotions || emotions.length === 0) return;

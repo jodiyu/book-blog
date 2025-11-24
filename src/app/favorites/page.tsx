@@ -51,7 +51,7 @@ export default function Favorites() {
 
   return (
     <>
-        <Background genre={activeGenre}/>
+        <Background genre={activeGenre} key={activeBookId}/>
         {console.log("[Page] Active genre:", activeGenre, "Book ID", activeBookId)}
 
         <main className="flex min-h-screen flex-col items-center justify-center p-6">
