@@ -160,7 +160,7 @@ export default function Background({genre}: BackgroundProps) {
         return () => window.removeEventListener("resize", updateSize);
     }, []);
 
-    const prevGenreRef = useRef(genre);
+    // const prevGenreRef = useRef(genre);
 
     // // Genre change effect
     // useEffect(() => {
