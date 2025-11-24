@@ -1,10 +1,28 @@
 // app/about/page.tsx
 import React from "react";
+import { Vortex } from "@/components/ui/vortex";
 import { HoverCard, HoverCardContent, HoverCardTrigger } from "@/components/ui/hover-card"
 
 export default function AboutAuthor() {
   return (
+      <div className="relative">
+      {/* Full-screen vortex layer */}
+      <div className="fixed inset-0 -z-10">
+        <Vortex
+          backgroundColor="black"
+        rangeY={800}
+        particleCount={500}
+        baseHue={120}
+        className="flex items-center flex-col justify-center px-2 md:px-10 py-4 w-full h-full"
+        >
+          {/* empty children; particles render beneath */}
+        </Vortex>
+      </div>
+    
     <main className="max-w-md mx-auto p-8 text-base leading-relaxed">
+      
+
+      
       <section className="flex flex-col items-center space-y-6 font-georgia">
 
         {/* Author name */}
@@ -12,7 +30,7 @@ export default function AboutAuthor() {
 
         {/* Short description */}
         <p className="text-center text-gray-700 dark:text-gray-300">
-          Hi my name is Jodi, and I like to read and write. My favorite genre is nonfiction. I am currently reading the Stormlight Archive, a great fantasy series that I stole off my brother&apos;s bookshelf.
+          Hi my name is Jodi, and I made this website just for fun! I like to read, and my favorite genre is nonfiction. I am currently reading the Stormlight Archive, a great fantasy series that I stole off my brother&apos;s bookshelf.
         </p>
 
         {/* Social media links */}
@@ -85,5 +103,6 @@ export default function AboutAuthor() {
         </nav>
       </section>
     </main>
+    </div>
   );
 }

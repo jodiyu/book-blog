@@ -143,7 +143,7 @@ export default function Background({genre}: BackgroundProps) {
         console.log("Active genre:", genre)
         const genreEmotions = getEmotionsForGenre(genre);
         setEmotions(genreEmotions);
-    }, []);
+    }, [genre]);
 
     useEffect(() => {
         if (typeof window === "undefined") return;
