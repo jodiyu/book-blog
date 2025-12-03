@@ -7,15 +7,14 @@
 @layer base {
   :root {
 
-    --background: 0 0% 100%;
+    --background: 0 0% 90%;    /* #E5E5E5 - softer white */
+    --foreground: 0 0% 15%;    
 
-    --foreground: 0 0% 3.9%;
-
-    --card: 0 0% 100%;
+    --card: 0 0% 90%;          /* Match background */
 
     --card-foreground: 0 0% 3.9%;
 
-    --popover: 0 0% 100%;
+    --popover: 0 0% 90%;       /* Match background */
 
     --popover-foreground: 0 0% 3.9%;
 
@@ -39,7 +38,7 @@
 
     --destructive-foreground: 0 0% 98%;
 
-    --border: 0 0% 89.8%;
+    --border: 0 0% 75.8%;
 
     --input: 0 0% 89.8%;
 
@@ -59,9 +58,8 @@
   }
   .dark {
 
-    --background: 0 0% 3.9%;
-
-    --foreground: 0 0% 98%;
+    --background: 0 0% 12%;    /* #1e1e1e - VS Code style */
+    --foreground: 0 0% 85%;    /* #d9d9d9 - soft white */
 
     --card: 0 0% 3.9%;
 
@@ -91,7 +89,7 @@
 
     --destructive-foreground: 0 0% 98%;
 
-    --border: 0 0% 14.9%;
+    --border: 0 0% 22.9%;
 
     --input: 0 0% 14.9%;
 

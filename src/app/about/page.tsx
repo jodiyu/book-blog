@@ -7,7 +7,7 @@ export default function AboutAuthor() {
   return (
       <div className="relative">
       {/* Full-screen vortex layer */}
-      <div className="fixed inset-0 -z-10 bg-white dark:bg-black">
+      <div className="fixed inset-0 -z-10 bg-background">
         <Vortex
         rangeY={800}
         particleCount={500}

@@ -59,7 +59,7 @@ const Card = ({ show, reveal, color, isFlipped, onFlip }: CardProps) => {
           isFlipped ? "[transform:rotateY(-180deg)]" : ""
         )}
       >
-        <div className={cn("bg-white", common)}>{show}</div>
+        <div className={cn("bg-background", common)}>{show}</div>
         <div
           className={cn("[transform:rotateY(180deg)]", common)}
           style={{
