@@ -24,7 +24,7 @@ export default function Favorites() {
   const activeBookId = activeIndex !== null ? favorites[activeIndex]?.id : null;
 
 
-  if (loading) {
+  if (loading) { /* Loading spinner */
   return (
     <main className="flex min-h-screen items-center justify-center">
       <div className="w-12 h-12 border-4 border-gray-700 border-t-gray-400 rounded-full animate-spin" />
@@ -40,35 +40,50 @@ export default function Favorites() {
     );
   }
 
-  if (favorites.length === 0) {
-    return (
-      <main className="flex min-h-screen items-center justify-center">
-        <p className="text-lg text-gray-500 font-serif">No favorites yet. Mark some books as favorites!</p>
-      </main>
-    );
-  }
-
-
   return (
     <>
         <Background genre={activeGenre} key={activeBookId}/>
-        {console.log("[Page] Active genre:", activeGenre, "Book ID", activeBookId)}
+       {/*  {console.log("[Page] Active genre:", activeGenre, "Book ID", activeBookId)} */}
 
         <main className="flex min-h-screen flex-col items-center justify-center p-6">
-        <div 
-          className="flex items-center justify-center gap-2 max-w-7xl"
-          onMouseLeave={() => setActiveIndex(null)}
-        >
-            {favorites.map((book, index) => (
-            <BookSpine
-                key={book.id}
-                book={book}
-                index={index}
-                isActive={index === activeIndex}
-                onHover={() => setActiveIndex(index)}
-            />
-            ))}
-        </div>
+          <div className="relative">
+            {/* Books container */}
+            <div 
+              className="flex items-end justify-center gap-1 px-8 pb-0"
+              onMouseLeave={() => setActiveIndex(null)}
+            >
+              {favorites.map((book, index) => (
+                <BookSpine
+                  key={book.id}
+                  book={book}
+                  index={index}
+                  isActive={index === activeIndex}
+                  onHover={() => setActiveIndex(index)}
+                />
+              ))}
+            </div>
+            
+            {/* Bookshelf */}
+            <div className="relative w-full">
+              {/* Main shelf surface */}
+              <div 
+                className="h-6 w-full rounded-sm"
+                style={{
+                  background: '#3D2E0F',
+                  boxShadow: `
+                    0 4px 8px rgba(0,0,0,0.4),
+                    inset 0 2px 4px rgba(255,255,255,0.1),
+                    inset 0 -2px 4px rgba(0,0,0,0.3)
+                  `,
+                }}
+              >
+          
+              </div>
+              
+              
+            
+            </div>
+          </div>
         </main>
     </>
   );
@@ -94,32 +109,42 @@ function BookSpine({ book, index, isActive, onHover }: BookSpineProps) {
     { base: '#5C4033', dark: '#3C2823', light: '#7C5843' }, // chestnut
   ];
   
+  // Vary the heights slightly for a more realistic look
+  const heightVariations = [384, 368, 392, 376, 388, 372, 396, 380];
+  const bookHeight = heightVariations[index % heightVariations.length];
+  
   const colorSet = spineColors[index % spineColors.length];
 
   return (
-    <motion.div
-      className="relative h-96 cursor-pointer overflow-hidden shadow-lg"
-      initial={{ width: '40px' }}
-      animate={{ 
-        width: isActive ? '280px' : '40px',
-        zIndex: isActive ? 10 : 1
-      }}
-      transition={{ 
-        duration: 0.4, 
-        ease: [0.4, 0, 0.2, 1]
-      }}
-      style={{
-        background: `linear-gradient(to right, 
-          ${colorSet.dark} 0%, 
-          ${colorSet.base} 15%, 
-          ${colorSet.base} 85%, 
-          ${colorSet.dark} 100%
-        )`,
-        borderLeft: `1px solid ${colorSet.dark}`,
-        borderRight: `1px solid ${colorSet.dark}`,
-      }}
-      onMouseEnter={onHover}
-    >
+    <div className="relative">
+      <motion.div
+        className="relative cursor-pointer overflow-hidden rounded-t-sm"
+        initial={{ width: '40px' }}
+        animate={{ 
+          width: isActive ? '280px' : '40px',
+          zIndex: isActive ? 10 : 1
+        }}
+        transition={{ 
+          duration: 0.4, 
+          ease: [0.4, 0, 0.2, 1]
+        }}
+        style={{
+          height: `${bookHeight}px`,
+          background: `linear-gradient(to right, 
+            ${colorSet.dark} 0%, 
+            ${colorSet.base} 15%, 
+            ${colorSet.base} 85%, 
+            ${colorSet.dark} 100%
+          )`,
+          borderLeft: `1px solid ${colorSet.dark}`,
+          borderRight: `1px solid ${colorSet.dark}`,
+          boxShadow: `
+            0 2px 4px rgba(0,0,0,0.3),
+            inset 0 -3px 6px rgba(0,0,0,0.2)
+          `,
+        }}
+        onMouseEnter={onHover}
+      >
       {/* Leather texture overlay */}
       <div 
         className="absolute inset-0 opacity-20 pointer-events-none"
@@ -222,5 +247,6 @@ function BookSpine({ book, index, isActive, onHover }: BookSpineProps) {
         </div>
       </motion.div>
     </motion.div>
+    </div>
   );
 }

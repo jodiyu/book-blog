@@ -17,6 +17,7 @@ const defaultQuotes: Quote[] = [
   { text: "I believe you into being.", author: "The Handmaid's Tale"},
   { text: "I don’t know what’s wrong with me, says Marianne. I don’t know why I can’t be like normal people", author: "Normal People"},
   { text: "Someday, no one will remember that she ever existed, I wrote in my notebook, and then, or that I did. Because memories fall apart, too.", author: "Looking for Alaska"},
+  { text: "I am a sick man... I am a spiteful man. I am an unattractive man", author: "Notes from Underground"}
   
 ];
 
